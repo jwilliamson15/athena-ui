@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import SkillSearch from "./components/skill/SkillSearch";
+import SkillSearchResult from "./components/skill/SkillResult";
 import './App.css';
 import './index.css';
 
@@ -18,6 +19,7 @@ const routing = (
             </header>
             <Route exact path="/athena" component={App} />
             <Route exact path="/athena/search" component={SkillSearch} />
+            <Route exact path="/athena/search/result" component={SkillSearchResult} />
         </div>
     </Router>
 )
