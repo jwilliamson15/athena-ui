@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useForm } from "react-hook-form";
 import "./Skill.css";
 
 import {Route, withRouter} from 'react-router-dom';
@@ -9,19 +10,26 @@ class SkillSearch extends React.Component {
         this.state = {skillName: '', skillLevel: ''};
 
         this.handleChange = this.handleChange.bind(this);
-        this.submitSearch = this.submitSearch.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    submitSearch(event) {
+    handleChange(event, el) {
+        switch(event.target.name) {
+            case 'skillName':
+                this.setState({skillName: event.target.value})
+                break;
+            case 'skillLevel':
+                this.setState({skillLevel: event.target.value})
+                break;
+            default:
+                break;
+        }
+    }
+
+    handleSubmit(event) {
         event.preventDefault();
+        alert(JSON.stringify(this.state));
         this.props.history.push('/athena/search/result')
-    }
-
-    handleChange(event) {
-        this.setState({skillName: event.target.skillName, skillLevel: event.target.skillLevel})
-        //TODO - values not persisting...
-        console.log("SKill Name: " + this.state.skillName)
-        console.log("SKill Level: " + this.state.skillLevel)
     }
 
     render() {
@@ -29,9 +37,9 @@ class SkillSearch extends React.Component {
             <div className="main-div">
                 <h3>Skill Search</h3>
                 <div>
-                    <form onSubmit={this.submitSearch}>
+                    <form onSubmit={this.handleSubmit}>
                         <label>Skill Name: </label>
-                        <input type="text" value={this.state.skillName} onChange={this.handleChange} />
+                        <input type="text" name="skillName" value={this.state.skillName} onChange={this.handleChange} />
 
                         <label>Level: </label>
                         <select name="skillLevel" value={this.state.skillLevel} onChange={this.handleChange}>
@@ -50,5 +58,34 @@ class SkillSearch extends React.Component {
         )
     }
 }
+
+// function SkillSearchFunc() {
+//     const { register, handleSubmit } = useForm();
+//     const onSubmit = (data) => alert(JSON.stringify(data)); //TODO - try as method like submitSearch above
+//
+//     return (
+//         <div>
+//             <h3>Skill Search</h3>
+//             <div>
+//                 <form onSubmit={handleSubmit(onSubmit)}>
+//                     <label>Skill Name: </label>
+//                     <input name="skillName" ref={register} />
+//
+//                     <label>Level: </label>
+//                     <select name="skillLevel" ref={register}>
+//                         <option value="">N/A</option>
+//                         <option value="BASELINE">Baseline</option>
+//                         <option value="PROGRESSING">Progressing</option>
+//                         <option value="PROFICIENT">Proficient</option>
+//                         <option value="EXPERIENCED">Experienced</option>
+//                         <option value="MASTER">Master</option>
+//                     </select>
+//
+//                     <input type="submit" value="Search" />
+//                 </form>
+//             </div>
+//         </div>
+//     );
+// }
 
 export default withRouter(SkillSearch);

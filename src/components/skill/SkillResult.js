@@ -9,6 +9,11 @@ class SkillResult extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        //TODO - pass values across
+        //alert("passed parameters: " + this.props.location.state.skillName + '-' + this.props.location.state.skillLevel);
+    }
+
     render() {
         return (
         <div className="main-div">
