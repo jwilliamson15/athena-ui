@@ -1,42 +1,36 @@
 import React from 'react';
 import "./App.css"
+import {Route, Switch} from "react-router-dom";
+import Error from './components/PageNotFound';
+import SkillSearch from "./components/skill/SkillSearch";
+import SkillResult from "./components/skill/SkillResult";
+import Home from './components/Home';
+import Header from "./components/Header";
+import * as Constants from './constants/constants';
+import NewConsultant from "./components/consultant/NewConsultant";
 
-class App extends React.Component {
-
-  componentDidMount() {
-    //TODO - anything needed here???
-  }
-
-  skillSearch(e) {
-      this.props.history.push('/athena/search')
-  }
-
-  newConsultant(e) {
-
-  }
-
-  render() {
+function App() {
     return (
-        <div className="App">
-            <table>
-                <tr>
-                    <th className="column">Skill Search
-                        <button className="button button-new" onClick={(e) => this.skillSearch(e)}>Search Skills</button>
-                    </th>
-                    <th className="column">Consultant Search
-                        <form>
-                            <input type="text" name="conSearch"/>
-                            <input type="submit" name="Search"/>
-                        </form>
-                    </th>
-                    <th className="column">New Consultant
-                        <button className="button button-new" onClick={(e) => this.newConsultant(e)}>Add New Consultant</button>
-                    </th>
-                </tr>
-          </table>
-        </div>
-    )
-  }
+        <main>
+            <Header />
+
+            <Switch>
+                <Route exact path={Constants.SKILL_SEARCH_RESULT_URL} >
+                    <SkillResult />
+                </Route>
+                <Route exact path={Constants.SKILL_SEARCH_URL} >
+                    <SkillSearch />
+                </Route>
+                <Route exact path={Constants.NEW_CONSULTANT_URL} >
+                    <NewConsultant />
+                </Route>
+                <Route exact path={Constants.HOME_URL} >
+                    <Home />
+                </Route>
+                <Route component={Error}/>
+            </Switch>
+        </main>
+    );
 }
 
 export default App;
