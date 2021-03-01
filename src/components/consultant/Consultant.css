@@ -21,7 +21,6 @@ table {
   margin:  10px auto;
   width: 95%;
 }
-
 tr:nth-child(even){
   background-color: #f2f2f2;
 }
@@ -36,8 +35,15 @@ th {
   background-color: #282c34;
   color: white;
 }
+th.subTable {
+  padding: 2px 5px 2px 5px;
+  text-align: left;
+  background-color: #ddd;
+  color: black;
+}
 td {
   text-align: left;
+  padding-left: 5px;
 }
 .button {
   margin: 10px 70px;

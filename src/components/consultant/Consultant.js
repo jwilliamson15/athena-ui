@@ -12,21 +12,22 @@ class Consultant extends React.Component {
                 <td>{this.props.consultant.name}</td>
                 <td>{this.props.consultant.jobRole}</td>
                 <td>{this.props.consultant.description}</td>
-                <td>{this.props.consultant.skills.map(skill => (
+                <td>
+                    <tr>
+                        <th className="subTable">Name</th>
+                        <th className="subTable">Level</th>
+                        <th className="subTable">Years Experience</th>
+                    </tr>
+                    {this.props.consultant.skills.map(skill => (
                         <React.Fragment>
                             <tr>
-                                <th>Name</th>
-                                <th>Level</th>
-                                <th>Years Experience</th>
-                            </tr>
-                            <tr>
-                                <td>{skill.name}</td>
-                                <td>{skill.skillLevel}</td>
+                                <td>{skill.name.toLowerCase()}</td>
+                                <td>{skill.skillLevel.toLowerCase()}</td>
                                 <td>{skill.experienceTime}</td>
                             </tr>
                         </React.Fragment>
-                    )
-                )}</td>
+                        )
+                    )}</td>
 
                 <td>
                     {/*<button className="button button-edit" onClick={(e) => this.updateUser(this.props.user.id, e)}>Edit</button>*/}
