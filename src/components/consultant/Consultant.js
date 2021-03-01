@@ -1,8 +1,6 @@
 import React from 'react';
 import "./Consultant.css";
 
-import {Route, withRouter} from 'react-router-dom';
-
 class Consultant extends React.Component {
     constructor(props) {
         super(props);
@@ -39,4 +37,4 @@ class Consultant extends React.Component {
     }
 }
 
-export default withRouter(Consultant);
+export default Consultant;
