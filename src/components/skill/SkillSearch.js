@@ -11,13 +11,18 @@ function SkillSearch() {
     const [error, setError] = useState(false);
     const [results, setResults] = useState([]);
 
-    const handleSkillNameChange = event => {
-        setSkillName(event.target.value);
-    };
-
-    const handleSkillLevelChange = event => {
-        setSkillLevel(event.target.value);
-    };
+    const handleChange = event => {
+        switch (event.target.name) {
+            case 'skillName':
+                setSkillName(event.target.value);
+                break;
+            case 'skillLevel':
+                setSkillLevel(event.target.value);
+                break;
+            default:
+                break;
+        }
+    }
 
     const performSearch = () => {
         let queryString = buildSearchQuery();
@@ -65,10 +70,10 @@ function SkillSearch() {
             <h3>Skill Search</h3>
             <div>
                 <label>Skill Name:</label>
-                <input name="skillName" value={skillName} onChange={handleSkillNameChange} />
+                <input name="skillName" value={skillName} onChange={handleChange} />
 
                 <label>Skill Level:</label>
-                <select name="skillLevel" value={skillLevel} onChange={handleSkillLevelChange} >
+                <select name="skillLevel" value={skillLevel} onChange={handleChange} >
                     <option value="">N/A</option>
                     <option value="BASELINE">Baseline</option>
                     <option value="PROGRESSING">Progressing</option>
