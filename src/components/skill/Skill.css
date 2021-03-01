@@ -7,21 +7,26 @@
 }
 label {
   font-weight: bold;
-  display: inline-block;
-  width: 80px;
   text-align: left;
+  white-space:nowrap;
+  margin: 10px;
 }
 input[type=text] {
-  width: 40%;
+  width: 20%;
   padding: 12px 20px;
-  margin: 8px 0;
+  margin: 8px 2px;
   box-sizing: border-box;
+}
+select {
+  margin: 4px;
+}
+h3, h4 {
+  margin: 10px;
 }
 table {
   margin:  10px auto;
   width: 95%;
 }
-
 tr:nth-child(even){
   background-color: #f2f2f2;
 }
