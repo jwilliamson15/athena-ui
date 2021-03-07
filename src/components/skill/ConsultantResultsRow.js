@@ -1,7 +1,7 @@
 import React from 'react';
-import "./Consultant.css";
+import "../consultant/Consultant.css";
 
-class Consultant extends React.Component {
+class ConsultantResultsRow extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -38,4 +38,4 @@ class Consultant extends React.Component {
     }
 }
 
-export default Consultant;
+export default ConsultantResultsRow;

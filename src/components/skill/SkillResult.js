@@ -1,5 +1,5 @@
 import React from 'react';
-import ConsultantList from "../consultant/ConsultantList";
+import ConsultantResultsTable from "./ConsultantResultsTable";
 import "./Skill.css";
 
 const SkillResult = props =>
@@ -7,7 +7,7 @@ const SkillResult = props =>
         {console.log("SkillResult: " + JSON.stringify(props.result))}
         <h4>Search Results</h4>
         <div className="App">
-            <ConsultantList consultants={props.result}/>
+            <ConsultantResultsTable consultants={props.result}/>
         </div>
     </div>
 

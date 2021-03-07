@@ -32,7 +32,7 @@ function SkillSearch() {
         setError(false);
 
         axios
-            .get(Constants.API_SEARCH_URL + queryString)
+            .get(Constants.API_SKILL_SEARCH_URL + queryString)
             .then(response => {
                 const searchResults = response.data.map(c => {
                     return {

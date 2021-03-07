@@ -1,8 +1,8 @@
 import React from 'react';
-import Consultant from "./Consultant.js";
-import "./Consultant.css";
+import ConsultantResultsRow from "./ConsultantResultsRow.js";
+import "../consultant/Consultant.css";
 
-const ConsultantList = props =>
+const ConsultantResultsTable = props =>
     <div>
         <table>
             <thead>
@@ -15,9 +15,9 @@ const ConsultantList = props =>
             </tr>
             </thead>
             <tbody>
-            {props.consultants.map(c => <Consultant key={c.id} consultant={c}/>)}
+            {props.consultants.map(c => <ConsultantResultsRow key={c.id} consultant={c}/>)}
             </tbody>
         </table>
     </div>
 
-export default ConsultantList;
+export default ConsultantResultsTable;
