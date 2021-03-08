@@ -8,3 +8,12 @@ export const SKILL_SEARCH_RESULT_URL = "/athena/search/result"
 export const NEW_CONSULTANT_URL = "/athena/consultant/new"
 export const CONSULTANT_SEARCH_URL = "/athena/consultant/search"
 export const CONSULTANT_EDIT_URL = "/athena/consultant/edit"
+
+export const EMPTY_CONSULTANT_OBJECT = {
+    name: '',
+    employeeNumber: '',
+    jobRole: '',
+    personDescription: '',
+    skills: [{name: '', experienceTime: '', skillLevel: ''}],
+    engagementHistory: [{name: '', description: '', duration: ''}]
+};

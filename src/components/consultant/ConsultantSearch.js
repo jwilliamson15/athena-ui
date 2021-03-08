@@ -3,11 +3,13 @@ import axios from "axios";
 import * as Constants from "../../constants/constants";
 import "./Consultant.css";
 import ConsultantResult from "./ConsultantResult";
+import {useDispatch} from "react-redux";
+import {saveConsultant} from '../actions';
 
 function ConsultantSearch() {
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-    const [result, setResult] = useState();
     const [employeeNumber, setEmployeeNumber] = useState();
 
     const handleInputChange = (e) => {
@@ -21,11 +23,12 @@ function ConsultantSearch() {
         axios
             .get(Constants.API_CONSULTANT_SEARCH_URL + queryString)
             .then(response => {
-                if (response.data === "") {
-                    setError(true);
-                } else {
-                    setResult(response.data);
+                if (response.status === 200) {
+                    console.log("API GET RESPONSE: " +JSON.stringify(response));
+                    dispatch(saveConsultant(response.data));
                     setLoading(false);
+                } else {
+                    setError(true);
                 }
             })
             .catch(error => {
@@ -59,7 +62,7 @@ function ConsultantSearch() {
                 <div>
                     {
                         (error) ? <h4>Error loading results. Please try again.</h4> : (loading) ?
-                            <h4>Loading results</h4> : <ConsultantResult result={result} />
+                            <h4>Loading results</h4> : <ConsultantResult />
                     }
                 </div>
             </div>
