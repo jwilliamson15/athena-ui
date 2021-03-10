@@ -32,30 +32,27 @@ function EditConsultant() {
     const dispatch = useDispatch();
 
     function saveConsultantInfo(consultant) {
-        // alert(JSON.stringify(consultant, null, 2))
         apiPutCall(consultant)
         dispatch(saveConsultant(consultant));
     }
 
     function apiPutCall(consultant) {
-        // setError(false);
+        let putUrl = Constants.API_BASE_URL + "/"+consultant.employeeNumber;
 
-        console.log("PUT URL: "+ Constants.API_BASE_URL + "/"+consultant._id.toString());
-
-        // axios
-        //     .get(Constants.API_CONSULTANT_SEARCH_URL + "/"+consultant.id.toString())
-        //     .then(response => {
-        //         if (response.data === "") {
-        //             setError(true);
-        //         } else {
-        //             dispatch(saveConsultant(response.data));
-        //             setLoading(false);
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //         setError(true);
-        //     })
+        axios
+            .put(
+                putUrl,
+                JSON.stringify(consultant),
+                {headers: {"Content-Type": "application/json"}}
+            )
+            .then(response => {
+                if (response.status == 200) {
+                    alert(consultant.name + " successfully updated.")
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     return (
@@ -75,6 +72,8 @@ function EditConsultant() {
 
                         <div>
                             <label>Employee Number: </label>
+                            {/*<label>{selectedConsultant.employeeNumber}</label>*/}
+                            {/*TODO - show below if new else above (not editable)*/}
                             <Field name="employeeNumber" validate={validateMandatoryField}/>
                             {errors.employeeNumber && touched.employeeNumber &&
                             <div>{errors.employeeNumber}</div>}

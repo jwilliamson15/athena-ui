@@ -8,7 +8,7 @@ function SkillSearch() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [results, setResults] = useState([]);
-    const [searchParamList, setSearchParamList] = useState([{skillName: "", skillLevel: ""}]);
+    const [searchParamList, setSearchParamList] = useState([{skillName: "", skillLevel: "ANY"}]);
 
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
@@ -24,12 +24,14 @@ function SkillSearch() {
     }
 
     const handleAddClick = () => {
-        setSearchParamList([...searchParamList, { skillName: "", skillLevel: "" }]);
+        setSearchParamList([...searchParamList, { skillName: "", skillLevel: "ANY" }]);
     }
 
     function performSearch() {
         const queryString = buildSearchQuery();
         setError(false);
+
+        alert(queryString);
 
         axios
             .get(Constants.API_SKILL_SEARCH_URL + queryString)
@@ -58,8 +60,15 @@ function SkillSearch() {
         let skillLevelArray = [];
 
         searchParamList.forEach(searchParam => {
-            skillNameArray.push(searchParam.skillName);
-            skillLevelArray.push(searchParam.skillLevel);
+            if (searchParam.skillName != "") {
+                skillNameArray.push(searchParam.skillName);
+
+                if (searchParam.skillLevel != "") {
+                    skillLevelArray.push(searchParam.skillLevel);
+                } else {
+                    skillLevelArray.push("ANY");
+                }
+            }
         });
 
         let query = new URLSearchParams({
@@ -86,7 +95,7 @@ function SkillSearch() {
                             <label>Skill Level:</label>
                             <select name="skillLevel" value={queryParam.skillLevel}
                                     onChange={e => handleInputChange(e, i)}>
-                                <option value="">All</option>
+                                <option value="ANY">All</option>
                                 <option value="BASELINE">Baseline</option>
                                 <option value="PROGRESSING">Progressing</option>
                                 <option value="PROFICIENT">Proficient</option>
