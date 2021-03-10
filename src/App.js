@@ -1,6 +1,6 @@
 import React from 'react';
 import "./App.css"
-import {Route, Switch} from "react-router-dom";
+import {Link, Route, Switch} from "react-router-dom";
 import Error from './components/PageNotFound';
 import SkillSearch from "./components/skill/SkillSearch";
 import SkillResult from "./components/skill/SkillResult";
@@ -14,7 +14,9 @@ import EditConsultant from "./components/consultant/EditConsultant";
 function App() {
     return (
         <main>
-            <Header />
+            <Link to={Constants.HOME_URL} style={{ textDecoration: 'none' }}>
+                <Header />
+            </Link>
 
             <Switch>
                 <Route exact path={Constants.SKILL_SEARCH_RESULT_URL} >

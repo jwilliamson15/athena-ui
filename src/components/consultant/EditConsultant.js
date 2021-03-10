@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Formik, Form, Field, FieldArray} from 'formik';
 import {useDispatch, useSelector} from "react-redux";
 import {saveConsultant} from "../actions";
@@ -72,11 +72,11 @@ function EditConsultant() {
 
                         <div>
                             <label>Employee Number: </label>
-                            {/*<label>{selectedConsultant.employeeNumber}</label>*/}
+                            <label>{selectedConsultant.employeeNumber}</label>
                             {/*TODO - show below if new else above (not editable)*/}
-                            <Field name="employeeNumber" validate={validateMandatoryField}/>
-                            {errors.employeeNumber && touched.employeeNumber &&
-                            <div>{errors.employeeNumber}</div>}
+                            {/*<Field name="employeeNumber" validate={validateMandatoryField}/>*/}
+                            {/*{errors.employeeNumber && touched.employeeNumber &&*/}
+                            {/*<div>{errors.employeeNumber}</div>}*/}
                         </div>
 
                         <div>
