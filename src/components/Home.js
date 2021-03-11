@@ -1,6 +1,7 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import {SKILL_SEARCH_URL, NEW_CONSULTANT_URL, CONSULTANT_SEARCH_URL} from "../constants/constants";
+import {Col, Container, Row} from "react-bootstrap";
 
 function Home() {
     const history = useHistory();
@@ -18,15 +19,26 @@ function Home() {
     }
 
     return (
-        <div className="App">
-            <table>
-                <tr>
-                    <th className="column" onClick={(e) => skillSearch()}>Skill Search</th>
-                    <th className="column" onClick={(e) => consultantSearch()}>Consultant Search</th>
-                    <th className="column" onClick={(e) => newConsultant()}>New Consultant</th>
-                </tr>
-            </table>
-        </div>
+        <Container fluid style={{
+            textAlign: "center"
+        }}>
+            <Row>
+                <Col style={{
+                    border: "1pt solid lightgrey",
+                    borderRadius: "10px"
+                }} onClick={(e) => skillSearch()}>
+                    <h2>Skill Search</h2>
+                </Col>
+                <Col style={{
+                    border: "1pt solid lightgrey",
+                    borderRadius: "10px"
+                }} onClick={(e) => consultantSearch()}><h2>Consultant Search</h2></Col>
+                <Col style={{
+                    border: "1pt solid lightgrey",
+                    borderRadius: "10px"
+                }} onClick={(e) => newConsultant()}><h2>New Consultant</h2></Col>
+            </Row>
+        </Container>
     );
 }
 

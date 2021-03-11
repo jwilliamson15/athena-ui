@@ -1,12 +1,11 @@
 import React from 'react';
 import ConsultantResultsTable from "./ConsultantResultsTable";
-import "./Skill.css";
 
 const SkillResult = props =>
-    <div className="main-div">
+    <div style={{marginLeft: "1%"}}>
         {console.log("SkillResult: " + JSON.stringify(props.result))}
         <h4>Search Results</h4>
-        <div className="App">
+        <div>
             <ConsultantResultsTable consultants={props.result}/>
         </div>
     </div>

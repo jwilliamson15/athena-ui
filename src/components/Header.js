@@ -1,8 +1,14 @@
+import Jumbotron from 'react-bootstrap/Jumbotron';
+
 function Header() {
     return (
-        <header className="App-header">
-            <h2>Athena</h2>
-        </header>
+        <Jumbotron style={{
+            textAlign: "center",
+            color: "white",
+            backgroundColor: "#282c34"
+        }}>
+            <h1>Athena</h1>
+        </Jumbotron>
     );
 }
 

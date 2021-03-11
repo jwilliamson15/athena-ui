@@ -1,5 +1,5 @@
 import React from 'react';
-import "../consultant/Consultant.css";
+import Table from "react-bootstrap/Table";
 
 class ConsultantResultsRow extends React.Component {
     constructor(props) {
@@ -13,10 +13,11 @@ class ConsultantResultsRow extends React.Component {
                 <td>{this.props.consultant.jobRole}</td>
                 <td>{this.props.consultant.description}</td>
                 <td>
+                    <Table borderless size="sm">
                     <tr>
-                        <th className="subTable">Name</th>
-                        <th className="subTable">Level</th>
-                        <th className="subTable">Years Experience</th>
+                        <th>Name</th>
+                        <th>Level</th>
+                        <th>Years Experience</th>
                     </tr>
                     {this.props.consultant.skills.map(skill => (
                         <React.Fragment>
@@ -27,11 +28,14 @@ class ConsultantResultsRow extends React.Component {
                             </tr>
                         </React.Fragment>
                         )
-                    )}</td>
+                    )}
+                    </Table>
+                </td>
 
+                {/*TODO -- actions??*/}
                 <td>
-                    {/*<button className="button button-edit" onClick={(e) => this.updateUser(this.props.user.id, e)}>Edit</button>*/}
-                    {/*<button className="button button-delete" onClick={(e) => this.deleteUser(this.props.user.id, e)}>Delete</button>*/}
+                    {/*<button onClick={(e) => this.updateUser(this.props.user.id, e)}>Edit</button>*/}
+                    {/*<button onClick={(e) => this.deleteUser(this.props.user.id, e)}>Delete</button>*/}
                 </td>
             </tr>
         )

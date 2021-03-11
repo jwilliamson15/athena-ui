@@ -1,11 +1,11 @@
 import React from 'react';
-import "./App.css"
 import {Link, Route, Switch} from "react-router-dom";
 import Error from './components/PageNotFound';
 import SkillSearch from "./components/skill/SkillSearch";
 import SkillResult from "./components/skill/SkillResult";
 import Home from './components/Home';
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import * as Constants from './constants/constants';
 import NewConsultant from "./components/consultant/NewConsultant";
 import ConsultantSearch from "./components/consultant/ConsultantSearch";
@@ -39,6 +39,8 @@ function App() {
                 </Route>
                 <Route component={Error}/>
             </Switch>
+
+            <Footer />
         </main>
     );
 }

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {Formik, Form, Field, FieldArray} from 'formik';
 import {useDispatch, useSelector} from "react-redux";
 import {saveConsultant} from "../actions";
 import axios from "axios";
 import * as Constants from "../../constants/constants";
+import {Button, InputGroup} from "react-bootstrap";
 
+//TODO - numeric validation on nested fields for skill and engagements
 function validateMandatoryField(value) {
     let error;
 
@@ -37,7 +39,7 @@ function EditConsultant() {
     }
 
     function apiPutCall(consultant) {
-        let putUrl = Constants.API_BASE_URL + "/"+consultant.employeeNumber;
+        let putUrl = Constants.API_BASE_URL + "/" + consultant.employeeNumber;
 
         axios
             .put(
@@ -56,7 +58,7 @@ function EditConsultant() {
     }
 
     return (
-        <div>
+        <div style={{marginLeft: "2%"}}>
             <Formik
                 initialValues={selectedConsultant}
                 onSubmit={values =>
@@ -64,53 +66,64 @@ function EditConsultant() {
                 }
                 render={({values, errors, touched}) => (
                     <Form>
-                        <div>
-                            <label>Name:</label>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>Name</InputGroup.Text>
+                            </InputGroup.Prepend>
                             <Field name="name" validate={validateMandatory200Char}/>
                             {errors.name && touched.name && <div>{errors.name}</div>}
-                        </div>
+                        </InputGroup>
 
-                        <div>
-                            <label>Employee Number: </label>
+
+                        <InputGroup className="mb-3">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>Employee Number </InputGroup.Text>
+                            </InputGroup.Prepend>
                             <label>{selectedConsultant.employeeNumber}</label>
                             {/*TODO - show below if new else above (not editable)*/}
                             {/*<Field name="employeeNumber" validate={validateMandatoryField}/>*/}
                             {/*{errors.employeeNumber && touched.employeeNumber &&*/}
                             {/*<div>{errors.employeeNumber}</div>}*/}
-                        </div>
+                        </InputGroup>
 
-                        <div>
-                            <label>Job Role:</label>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>Job Role</InputGroup.Text>
+                            </InputGroup.Prepend>
                             <Field name="jobRole" validate={validateMandatory200Char}/>
                             {errors.jobRole && touched.jobRole && <div>{errors.jobRole}</div>}
-                        </div>
+                        </InputGroup>
 
-                        <div>
-                            <label>Description:</label>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>Description</InputGroup.Text>
+                            </InputGroup.Prepend>
                             <Field name="personDescription"/>
-                        </div>
+                        </InputGroup>
 
-                        <div>
-                            <h3>Skills</h3>
+
+                        <h3>Skills</h3>
+                        <InputGroup className="mb-3">
                             <FieldArray
                                 name="skills"
                                 render={arrayHelpers => (
                                     <div>
                                         {values.skills.map((skill, index) => (
                                             <div key={index}>
-                                                <div>
-                                                    <label>Name:</label>
+                                                <InputGroup.Prepend className="mb-2">
+                                                    <InputGroup.Text>Name</InputGroup.Text>
                                                     <Field name={`skills[${index}].name`}/>
-                                                </div>
+                                                </InputGroup.Prepend>
 
-                                                <div>
-                                                    <label>Experience Time:</label>
+                                                <InputGroup.Prepend className="mb-2">
+                                                    <InputGroup.Text>Experience
+                                                        Time</InputGroup.Text>
                                                     <Field
                                                         name={`skills[${index}].experienceTime`}/>
-                                                </div>
+                                                </InputGroup.Prepend>
 
-                                                <div>
-                                                    <label>Level</label>
+                                                <InputGroup.Prepend className="mb-2">
+                                                    <InputGroup.Text>Level</InputGroup.Text>
                                                     <Field as="select"
                                                            name={`skills[${index}].skillLevel`}>
                                                         <option value="">All</option>
@@ -125,78 +138,79 @@ function EditConsultant() {
                                                         <option value="MASTER">Master</option>
                                                     </Field>
 
-
-                                                    <button type="button"
+                                                    <Button variant="outline-danger"
+                                                            style={{marginLeft: "2%"}}
                                                             onClick={() => arrayHelpers.remove(index)}>
                                                         Remove Skill
-                                                    </button>
-                                                </div>
+                                                    </Button>
+                                                </InputGroup.Prepend>
                                             </div>
                                         ))}
-                                        <button
-                                            type="button"
-                                            onClick={() => arrayHelpers.push({
-                                                name: '',
-                                                experienceTime: '',
-                                                skillLevel: ''
-                                            })}
+                                        <Button variant="outline-primary"
+                                                onClick={() => arrayHelpers.push({
+                                                    name: '',
+                                                    experienceTime: '',
+                                                    skillLevel: ''
+                                                })}
                                         >
                                             Add Skill
-                                        </button>
+                                        </Button>
                                     </div>
                                 )}
                             />
-                        </div>
+                        </InputGroup>
 
-                        <div>
-                            <h3>Engagement History</h3>
+
+                        <h3>Engagement History</h3>
+                        <InputGroup className="mb-3">
                             <FieldArray
                                 name="engagementHistory"
                                 render={arrayHelpers => (
                                     <div>
                                         {values.engagementHistory.map((engagement, index) => (
                                             <div key={index}>
-                                                <div>
-                                                    <label>Name:</label>
+                                                <InputGroup.Prepend className="mb-2">
+                                                    <InputGroup.Text>Name</InputGroup.Text>
                                                     <Field
                                                         name={`engagementHistory[${index}].name`}/>
-                                                </div>
+                                                </InputGroup.Prepend>
 
-                                                <div>
-                                                    <label>Decscription:</label>
+                                                <InputGroup.Prepend className="mb-2">
+                                                    <InputGroup.Text>Description</InputGroup.Text>
                                                     <Field
                                                         name={`engagementHistory[${index}].description`}/>
-                                                </div>
+                                                </InputGroup.Prepend>
 
-                                                <div>
-                                                    <label>Duration:</label>
+                                                <InputGroup.Prepend className="mb-2">
+                                                    <InputGroup.Text>Duration</InputGroup.Text>
                                                     <Field
                                                         name={`engagementHistory[${index}].duration`}/>
 
-                                                    <button type="button"
+                                                    <Button variant="outline-danger"
+                                                            style={{marginLeft: "1%"}}
                                                             onClick={() => arrayHelpers.remove(index)}>
                                                         Remove Engagement
-                                                    </button>
-                                                </div>
+                                                    </Button>
+                                                </InputGroup.Prepend>
                                             </div>
                                         ))}
-                                        <button
-                                            type="button"
-                                            onClick={() => arrayHelpers.push({
-                                                name: '',
-                                                description: '',
-                                                duration: ''
-                                            })}
+                                        <Button variant="outline-primary"
+                                                onClick={() => arrayHelpers.push({
+                                                    name: '',
+                                                    description: '',
+                                                    duration: ''
+                                                })}
                                         >
                                             Add Engagement
-                                        </button>
+                                        </Button>
                                     </div>
                                 )}
                             />
-                        </div>
+                        </InputGroup>
 
                         <div>
-                            <button type="submit">Submit</button>
+                            <Button variant="outline-success"
+                                    type="submit">Submit</Button>
                         </div>
                     </Form>
 

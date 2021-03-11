@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter} from "react-router-dom";
 import App from './App';
-import './App.css';
-import './index.css';
 import {createStore} from "redux";
 import {Provider} from 'react-redux';
 import allReducers from "./components/reducers";
+
+import 'bootstrap/dist/css/bootstrap.css';
 
 const store = createStore(
     allReducers,

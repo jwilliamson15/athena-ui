@@ -1,10 +1,10 @@
 import React from 'react';
 import ConsultantResultsRow from "./ConsultantResultsRow.js";
-import "../consultant/Consultant.css";
+import Table from 'react-bootstrap/Table'
 
 const ConsultantResultsTable = props =>
     <div>
-        <table>
+        <Table striped bordered hover>
             <thead>
             <tr>
                 <th>Name</th>
@@ -17,7 +17,7 @@ const ConsultantResultsTable = props =>
             <tbody>
             {props.consultants.map(c => <ConsultantResultsRow key={c.id} consultant={c}/>)}
             </tbody>
-        </table>
+        </Table>
     </div>
 
 export default ConsultantResultsTable;

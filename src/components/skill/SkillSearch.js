@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import "./Skill.css";
+import React, {useState} from 'react';
 import SkillResult from "./SkillResult";
 import axios from "axios";
 import * as Constants from "../../constants/constants";
+import Button from "react-bootstrap/Button";
+import {InputGroup, Spinner} from "react-bootstrap";
 
 function SkillSearch() {
     const [loading, setLoading] = useState(true);
@@ -11,7 +12,7 @@ function SkillSearch() {
     const [searchParamList, setSearchParamList] = useState([{skillName: "", skillLevel: "ANY"}]);
 
     const handleInputChange = (e, index) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         const list = [...searchParamList];
         list[index][name] = value;
         setSearchParamList(list);
@@ -19,19 +20,17 @@ function SkillSearch() {
 
     const handleRemoveClick = index => {
         const list = [...searchParamList];
-        list.splice(index,1);
+        list.splice(index, 1);
         setSearchParamList(list);
     }
 
     const handleAddClick = () => {
-        setSearchParamList([...searchParamList, { skillName: "", skillLevel: "ANY" }]);
+        setSearchParamList([...searchParamList, {skillName: "", skillLevel: "ANY"}]);
     }
 
     function performSearch() {
         const queryString = buildSearchQuery();
         setError(false);
-
-        alert(queryString);
 
         axios
             .get(Constants.API_SKILL_SEARCH_URL + queryString)
@@ -82,40 +81,55 @@ function SkillSearch() {
     }
 
     return (
-        <div>
-            <h3>Skill Search</h3>
+        <div style={{marginLeft: "2%"}}>
+            <h2>Skill Search</h2>
             <div>
                 {searchParamList.map((queryParam, i) => {
                     return (
                         <div>
-                            <label>Skill Name:</label>
-                            <input name="skillName" value={queryParam.skillName}
-                                   onChange={e => handleInputChange(e, i)}/>
+                            <InputGroup className="mb-3">
+                                <InputGroup.Prepend >
+                                    <InputGroup.Text>Skill Name</InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <input name="skillName" value={queryParam.skillName}
+                                       onChange={e => handleInputChange(e, i)}/>
 
-                            <label>Skill Level:</label>
-                            <select name="skillLevel" value={queryParam.skillLevel}
-                                    onChange={e => handleInputChange(e, i)}>
-                                <option value="ANY">All</option>
-                                <option value="BASELINE">Baseline</option>
-                                <option value="PROGRESSING">Progressing</option>
-                                <option value="PROFICIENT">Proficient</option>
-                                <option value="EXPERIENCED">Experienced</option>
-                                <option value="MASTER">Master</option>
-                            </select>
-                            {searchParamList.length !== 1 &&
-                                <button onClick={() => handleRemoveClick(i)}>Remove</button>}
-                            {searchParamList.length - 1 === i &&
-                                <button onClick={handleAddClick}>Add</button>}
+                                <InputGroup.Prepend style={{marginLeft: "1%"}}>
+                                    <InputGroup.Text>Skill Level</InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <select name="skillLevel" value={queryParam.skillLevel}
+                                        onChange={e => handleInputChange(e, i)}>
+                                    <option value="ANY">All</option>
+                                    <option value="BASELINE">Baseline</option>
+                                    <option value="PROGRESSING">Progressing</option>
+                                    <option value="PROFICIENT">Proficient</option>
+                                    <option value="EXPERIENCED">Experienced</option>
+                                    <option value="MASTER">Master</option>
+                                </select>
+
+                                {searchParamList.length !== 1 &&
+                                <Button variant="outline-danger"
+                                        style={{marginLeft: "1%"}}
+                                        onClick={() => handleRemoveClick(i)}>Remove</Button>}
+                                {searchParamList.length - 1 === i &&
+                                <Button variant="outline-primary"
+                                        style={{marginLeft: "1%"}}
+                                        onClick={handleAddClick}>Add</Button>}
+                            </InputGroup>
                         </div>
                     )
                 })}
-                <button onClick={(e) => performSearch()}>Search</button>
+
+                <div>
+                    <Button variant="outline-success"
+                            onClick={(e) => performSearch()}>Search</Button>
+                </div>
                 <hr/>
 
                 <div>
                     {
                         (error) ? <h4>Error loading results. Please try again.</h4> : (loading) ?
-                            <h4>Loading results</h4> : <SkillResult result={results} />
+                            <Spinner animation="border" variant="secondary"/> : <SkillResult result={results}/>
                     }
                 </div>
             </div>

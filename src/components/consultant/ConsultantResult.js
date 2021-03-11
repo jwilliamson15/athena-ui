@@ -1,58 +1,97 @@
 import React from 'react';
-import "../skill/Skill.css";
 import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import {CONSULTANT_EDIT_URL} from "../../constants/constants";
+import {Button, Card, Col, Container, Row, Table} from "react-bootstrap";
 
 function ConsultantResult() {
     const selectedConsultant = useSelector(state => state.selectedConsultant);
 
     return (
-        <div className="main-div">
-            <div className="App">
-                <h3>{selectedConsultant.name.toString()}</h3>
-                <h4>{selectedConsultant.jobRole.toString()}</h4>
-                <h5>Description</h5><p>{selectedConsultant.personDescription.toString()}</p>
-                <h5>Employee Number</h5><p>{selectedConsultant.employeeNumber.toString()}</p>
-                <h5>Skills</h5>
-                <p>
-                    <table>
-                        <th className="subTable">Name</th>
-                        <th className="subTable">Level</th>
-                        <th className="subTable">Years Experience</th>
-                        {selectedConsultant.skills.map(skill => (
-                            <React.Fragment>
-                                <tr>
-                                    <td>{skill.name.toLowerCase()}</td>
-                                    <td>{skill.skillLevel.toLowerCase()}</td>
-                                    <td>{skill.experienceTime}</td>
-                                </tr>
-                            </React.Fragment>
-                        ))}
-                    </table>
-                </p>
-                <h5>Engagement History</h5>
-                <p>
-                    <table>
-                        <th className="subTable">Name</th>
-                        <th className="subTable">Description</th>
-                        <th className="subTable">Duration (years)</th>
-                        {selectedConsultant.engagementHistory.map(engagement => (
-                            <React.Fragment>
-                                <tr>
-                                    <td>{engagement.name.toLowerCase()}</td>
-                                    <td>{engagement.description.toLowerCase()}</td>
-                                    <td>{engagement.duration}</td>
-                                </tr>
-                            </React.Fragment>
-                        ))}
-                    </table>
-                </p>
+        <div>
+            <div>
+                <Card>
+                    <Card.Body>
+                        <Card.Title>{selectedConsultant.name.toString()}</Card.Title>
+                        <Card.Subtitle className="mb-3">{selectedConsultant.jobRole.toString()}</Card.Subtitle>
+                        <Card.Text>
+                            <b>Description</b>
+                            <p>{selectedConsultant.personDescription.toString()}</p>
+
+                            <b>Employee Number</b>
+                            <p>{selectedConsultant.employeeNumber.toString()}</p>
+
+                            <Container fluid>
+                                <Row>
+                                    <Col>
+                                        <Card>
+                                            <Card.Body>
+                                                <Card.Title>Skills</Card.Title>
+                                                <Card.Text>
+                                                    <Table striped bordered hover>
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Level</th>
+                                                            <th>Years Experience</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {selectedConsultant.skills.map(skill => (
+                                                            <React.Fragment>
+                                                                <tr>
+                                                                    <td>{skill.name.toLowerCase()}</td>
+                                                                    <td>{skill.skillLevel.toLowerCase()}</td>
+                                                                    <td>{skill.experienceTime}</td>
+                                                                </tr>
+                                                            </React.Fragment>
+                                                        ))}
+                                                        </tbody>
+                                                    </Table>
+                                                </Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+
+                                    <Col>
+                                        <Card>
+                                            <Card.Body>
+                                                <Card.Title>Engagement History</Card.Title>
+                                                <Card.Text>
+                                                    <Table striped bordered hover>
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Description</th>
+                                                            <th>Duration (years)</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {selectedConsultant.engagementHistory.map(engagement => (
+                                                            <React.Fragment>
+                                                                <tr>
+                                                                    <td>{engagement.name.toLowerCase()}</td>
+                                                                    <td>{engagement.description.toLowerCase()}</td>
+                                                                    <td>{engagement.duration}</td>
+                                                                </tr>
+                                                            </React.Fragment>
+                                                        ))}
+                                                        </tbody>
+                                                    </Table>
+                                                </Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
             </div>
 
             <hr/>
-            <Link to={CONSULTANT_EDIT_URL} >
-                <button>Edit</button>
+            <Link to={CONSULTANT_EDIT_URL}>
+                <Button variant="outline-info">Edit</Button>
             </Link>
         </div>
     )
