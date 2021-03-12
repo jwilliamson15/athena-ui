@@ -11,7 +11,6 @@ const ConsultantResultsTable = props =>
                 <th>Job Role</th>
                 <th>Description</th>
                 <th>Skills</th>
-                <th>Actions</th>
             </tr>
             </thead>
             <tbody>

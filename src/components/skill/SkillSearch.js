@@ -41,8 +41,9 @@ function SkillSearch() {
                         name: c.name,
                         employeeNumber: c.employeeNumber,
                         jobRole: c.jobRole,
-                        description: c.personDescription,
-                        skills: c.skills
+                        personDescription: c.personDescription,
+                        skills: c.skills,
+                        engagementHistory: c.engagementHistory
                     };
                 });
                 setResults(searchResults);

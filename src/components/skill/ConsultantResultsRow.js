@@ -1,45 +1,46 @@
 import React from 'react';
 import Table from "react-bootstrap/Table";
+import {useDispatch} from "react-redux";
+import {saveConsultant, setLoading} from "../actions";
+import {useHistory} from "react-router-dom";
+import {CONSULTANT_SEARCH_URL} from "../../constants/constants";
 
-class ConsultantResultsRow extends React.Component {
-    constructor(props) {
-        super(props);
+function ConsultantResultsRow(props) {
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    function handleClick() {
+        dispatch(saveConsultant(props.consultant))
+        dispatch(setLoading(false))
+        history.push(CONSULTANT_SEARCH_URL)
     }
 
-    render() {
-        return (
-            <tr>
-                <td>{this.props.consultant.name}</td>
-                <td>{this.props.consultant.jobRole}</td>
-                <td>{this.props.consultant.description}</td>
-                <td>
-                    <Table borderless size="sm">
+    return (
+        <tr onClick={(e) => handleClick()}>
+            <td>{props.consultant.name}</td>
+            <td>{props.consultant.jobRole}</td>
+            <td>{props.consultant.personDescription}</td>
+            <td>
+                <Table borderless size="sm">
                     <tr>
                         <th>Name</th>
                         <th>Level</th>
                         <th>Years Experience</th>
                     </tr>
-                    {this.props.consultant.skills.map(skill => (
-                        <React.Fragment>
-                            <tr>
-                                <td>{skill.name.toLowerCase()}</td>
-                                <td>{skill.skillLevel.toLowerCase()}</td>
-                                <td>{skill.experienceTime}</td>
-                            </tr>
-                        </React.Fragment>
+                    {props.consultant.skills.map(skill => (
+                            <React.Fragment>
+                                <tr>
+                                    <td>{skill.name.toLowerCase()}</td>
+                                    <td>{skill.skillLevel.toLowerCase()}</td>
+                                    <td>{skill.experienceTime}</td>
+                                </tr>
+                            </React.Fragment>
                         )
                     )}
-                    </Table>
-                </td>
-
-                {/*TODO -- actions??*/}
-                <td>
-                    {/*<button onClick={(e) => this.updateUser(this.props.user.id, e)}>Edit</button>*/}
-                    {/*<button onClick={(e) => this.deleteUser(this.props.user.id, e)}>Delete</button>*/}
-                </td>
-            </tr>
-        )
-    }
+                </Table>
+            </td>
+        </tr>
+    )
 }
 
 export default ConsultantResultsRow;
