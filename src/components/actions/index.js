@@ -5,3 +5,9 @@ export const saveConsultant = (consultant) => {
     };
 };
 
+export const setLoading = (loading) => {
+    return {
+        type: "setLoading",
+        payload: loading
+    };
+};

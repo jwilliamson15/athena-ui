@@ -13,7 +13,8 @@ function ConsultantResult() {
                 <Card>
                     <Card.Body>
                         <Card.Title>{selectedConsultant.name.toString()}</Card.Title>
-                        <Card.Subtitle className="mb-3">{selectedConsultant.jobRole.toString()}</Card.Subtitle>
+                        <Card.Subtitle
+                            className="mb-3">{selectedConsultant.jobRole.toString()}</Card.Subtitle>
                         <Card.Text>
                             <b>Description</b>
                             <p>{selectedConsultant.personDescription.toString()}</p>
@@ -90,9 +91,11 @@ function ConsultantResult() {
             </div>
 
             <hr/>
-            <Link to={CONSULTANT_EDIT_URL}>
-                <Button variant="outline-info">Edit</Button>
-            </Link>
+            <div className="pb-5">
+                <Link to={CONSULTANT_EDIT_URL}>
+                    <Button variant="outline-info">Edit</Button>
+                </Link>
+            </div>
         </div>
     )
 }

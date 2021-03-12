@@ -2,16 +2,17 @@ import React, {useState} from 'react';
 import axios from "axios";
 import * as Constants from "../../constants/constants";
 import ConsultantResult from "./ConsultantResult";
-import {useDispatch} from "react-redux";
-import {saveConsultant} from '../actions';
+import {useDispatch, useSelector} from "react-redux";
+import {saveConsultant, setLoading} from '../actions';
 import Button from "react-bootstrap/Button";
 import {InputGroup, Spinner} from "react-bootstrap";
 
 function ConsultantSearch() {
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(true);
+    const selectedConsultant = useSelector(state => state.selectedConsultant);
+    const loading = useSelector(state => state.isLoading);
     const [error, setError] = useState(false);
-    const [employeeNumber, setEmployeeNumber] = useState();
+    const [employeeNumber, setEmployeeNumber] = useState(selectedConsultant.employeeNumber);
 
     const handleInputChange = (e) => {
         setEmployeeNumber(e.target.value);
@@ -27,7 +28,7 @@ function ConsultantSearch() {
                 if (response.status === 200) {
                     console.log("API GET RESPONSE: " +JSON.stringify(response));
                     dispatch(saveConsultant(response.data));
-                    setLoading(false);
+                    dispatch(setLoading(false));
                 } else {
                     setError(true);
                 }

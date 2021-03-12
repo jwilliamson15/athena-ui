@@ -6,6 +6,7 @@ import axios from "axios";
 import * as Constants from "../../constants/constants";
 import {Button, InputGroup} from "react-bootstrap";
 
+
 //TODO - numeric validation on nested fields for skill and engagements
 function validateMandatoryField(value) {
     let error;
@@ -59,6 +60,7 @@ function EditConsultant() {
 
     return (
         <div style={{marginLeft: "2%"}}>
+            <h2 className="mb-3">Edit Consultant</h2>
             <Formik
                 initialValues={selectedConsultant}
                 onSubmit={values =>
@@ -74,16 +76,12 @@ function EditConsultant() {
                             {errors.name && touched.name && <div>{errors.name}</div>}
                         </InputGroup>
 
-
                         <InputGroup className="mb-3">
                             <InputGroup.Prepend>
-                                <InputGroup.Text>Employee Number </InputGroup.Text>
+                                <InputGroup.Text>Employee Number</InputGroup.Text>
                             </InputGroup.Prepend>
-                            <label>{selectedConsultant.employeeNumber}</label>
-                            {/*TODO - show below if new else above (not editable)*/}
-                            {/*<Field name="employeeNumber" validate={validateMandatoryField}/>*/}
-                            {/*{errors.employeeNumber && touched.employeeNumber &&*/}
-                            {/*<div>{errors.employeeNumber}</div>}*/}
+                            {/*TODO - refactor edit/new pages*/}
+                            <Field name="employeeNumber" validate={validateMandatoryField} disabled/>
                         </InputGroup>
 
                         <InputGroup className="mb-3">
@@ -102,7 +100,7 @@ function EditConsultant() {
                         </InputGroup>
 
 
-                        <h3>Skills</h3>
+                        <h4>Skills</h4>
                         <InputGroup className="mb-3">
                             <FieldArray
                                 name="skills"
@@ -161,7 +159,7 @@ function EditConsultant() {
                         </InputGroup>
 
 
-                        <h3>Engagement History</h3>
+                        <h4>Engagement History</h4>
                         <InputGroup className="mb-3">
                             <FieldArray
                                 name="engagementHistory"
@@ -171,27 +169,29 @@ function EditConsultant() {
                                             <div key={index}>
                                                 <InputGroup.Prepend className="mb-2">
                                                     <InputGroup.Text>Name</InputGroup.Text>
-                                                    <Field
-                                                        name={`engagementHistory[${index}].name`}/>
+                                                    <Field name={`engagementHistory[${index}].name`}/>
                                                 </InputGroup.Prepend>
 
                                                 <InputGroup.Prepend className="mb-2">
                                                     <InputGroup.Text>Description</InputGroup.Text>
-                                                    <Field
-                                                        name={`engagementHistory[${index}].description`}/>
+                                                    <Field name={`engagementHistory[${index}].description`}/>
                                                 </InputGroup.Prepend>
 
                                                 <InputGroup.Prepend className="mb-2">
                                                     <InputGroup.Text>Duration</InputGroup.Text>
-                                                    <Field
-                                                        name={`engagementHistory[${index}].duration`}/>
+                                                    <Field name={`engagementHistory[${index}].duration`}/>
+
 
                                                     <Button variant="outline-danger"
-                                                            style={{marginLeft: "1%"}}
+                                                            style={{
+                                                                marginLeft: "1%",
+                                                                minWidth: "180px"
+                                                            }}
                                                             onClick={() => arrayHelpers.remove(index)}>
-                                                        Remove Engagement
+                                                        Remove Engagment
                                                     </Button>
                                                 </InputGroup.Prepend>
+
                                             </div>
                                         ))}
                                         <Button variant="outline-primary"
@@ -208,7 +208,7 @@ function EditConsultant() {
                             />
                         </InputGroup>
 
-                        <div>
+                        <div className="pb-5">
                             <Button variant="outline-success"
                                     type="submit">Submit</Button>
                         </div>

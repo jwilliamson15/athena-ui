@@ -5,7 +5,7 @@ function Header() {
         <Jumbotron style={{
             textAlign: "center",
             color: "white",
-            backgroundColor: "#282c34"
+            backgroundColor: "#202451"
         }}>
             <h1>Athena</h1>
         </Jumbotron>
