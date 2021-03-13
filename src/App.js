@@ -3,13 +3,12 @@ import {Link, Route, Switch} from "react-router-dom";
 import Error from './components/PageNotFound';
 import SkillSearch from "./components/skill/SkillSearch";
 import SkillResult from "./components/skill/SkillResult";
+import ConsultantSearch from "./components/consultant/ConsultantSearch";
+import EditConsultant from "./components/consultant/EditConsultant";
 import Home from './components/Home';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import * as Constants from './constants/constants';
-import NewConsultant from "./components/consultant/NewConsultant";
-import ConsultantSearch from "./components/consultant/ConsultantSearch";
-import EditConsultant from "./components/consultant/EditConsultant";
 
 function App() {
     return (
@@ -29,10 +28,10 @@ function App() {
                     <ConsultantSearch />
                 </Route>
                 <Route exact path={Constants.NEW_CONSULTANT_URL} >
-                    <NewConsultant />
+                    <EditConsultant isNewConsultant={true}/>
                 </Route>
                 <Route exact path={Constants.CONSULTANT_EDIT_URL} >
-                    <EditConsultant />
+                    <EditConsultant isNewConsultant={false}/>
                 </Route>
                 <Route exact path={Constants.HOME_URL} >
                     <Home />

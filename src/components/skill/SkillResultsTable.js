@@ -1,8 +1,8 @@
 import React from 'react';
-import ConsultantResultsRow from "./ConsultantResultsRow.js";
+import SkillResultsRow from "./SkillResultsRow.js";
 import Table from 'react-bootstrap/Table'
 
-const ConsultantResultsTable = props =>
+const SkillResultsTable = props =>
     <div>
         <Table striped bordered hover>
             <thead>
@@ -14,9 +14,9 @@ const ConsultantResultsTable = props =>
             </tr>
             </thead>
             <tbody>
-            {props.consultants.map(c => <ConsultantResultsRow key={c.id} consultant={c}/>)}
+            {props.consultants.map(c => <SkillResultsRow key={c.id} consultant={c}/>)}
             </tbody>
         </Table>
     </div>
 
-export default ConsultantResultsTable;
+export default SkillResultsTable;

@@ -26,7 +26,6 @@ function ConsultantSearch() {
             .get(Constants.API_CONSULTANT_SEARCH_URL + queryString)
             .then(response => {
                 if (response.status === 200) {
-                    console.log("API GET RESPONSE: " +JSON.stringify(response));
                     dispatch(saveConsultant(response.data));
                     dispatch(setConsultantLoading(false));
                 } else {

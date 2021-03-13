@@ -1,6 +1,7 @@
 import React from "react";
 import {useHistory} from "react-router-dom";
 import {SKILL_SEARCH_URL, NEW_CONSULTANT_URL, CONSULTANT_SEARCH_URL} from "../constants/constants";
+import './Home.css';
 
 function Home() {
     const history = useHistory();
@@ -18,31 +19,12 @@ function Home() {
     }
 
     return (
-        <table style={{
-            width: "95%",
-            height: "78vh",
-            marginLeft: "2.5%",
-            textAlign: "center",
-            tableLayout: "fixed",
-            fontSize: "47pt"
-        }}>
+        <table className="homeTable">
             <tbody>
             <tr>
-                <td style={{
-                    border: "1px solid lightgray"
-                }}
-                    onClick={() => skillSearch()}>Skills Search
-                </td>
-                <td style={{
-                    border: "1px solid lightgray"
-                }}
-                    onClick={() => consultantSearch()}>Consultant Search
-                </td>
-                <td style={{
-                    border: "1px solid lightgray"
-                }}
-                    onClick={() => newConsultant()}>New Consultant
-                </td>
+                <td className="hometd" onClick={() => skillSearch()}>Skills Search</td>
+                <td className="hometd" onClick={() => consultantSearch()}>Consultant Search</td>
+                <td className="hometd" onClick={() => newConsultant()}>New Consultant</td>
             </tr>
             </tbody>
         </table>

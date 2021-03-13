@@ -5,7 +5,7 @@ import {saveConsultant, setConsultantLoading} from "../../store/actions";
 import {useHistory} from "react-router-dom";
 import {CONSULTANT_SEARCH_URL} from "../../constants/constants";
 
-function ConsultantResultsRow(props) {
+function SkillResultsRow(props) {
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -43,4 +43,4 @@ function ConsultantResultsRow(props) {
     )
 }
 
-export default ConsultantResultsRow;
+export default SkillResultsRow;
