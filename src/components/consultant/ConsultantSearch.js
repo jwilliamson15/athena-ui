@@ -12,6 +12,7 @@ function ConsultantSearch() {
     const selectedConsultant = useSelector(state => state.selectedConsultant);
     const consultantLoading = useSelector(state => state.isConsultantLoading);
     const [error, setError] = useState(false);
+    const [hasNoResults, setHasNoResults] = useState(false);
     const [employeeNumber, setEmployeeNumber] = useState(selectedConsultant.employeeNumber);
 
     const handleInputChange = (e) => {
@@ -20,14 +21,20 @@ function ConsultantSearch() {
 
     function performSearch() {
         const queryString = buildSearchQuery();
-        setError(false);
 
         axios
             .get(Constants.API_CONSULTANT_SEARCH_URL + queryString)
             .then(response => {
-                if (response.status === 200) {
-                    dispatch(saveConsultant(response.data));
-                    dispatch(setConsultantLoading(false));
+                if (response.status == 200) {
+                    if (response.data == "") {
+                        setHasNoResults(true);
+                        dispatch(setConsultantLoading(false));
+                        console.log("hasNoResults: " + hasNoResults);
+                        console.log("consultant loading: " + consultantLoading);
+                    } else {
+                        dispatch(saveConsultant(response.data));
+                        dispatch(setConsultantLoading(false));
+                    }
                 } else {
                     setError(true);
                 }
@@ -48,6 +55,13 @@ function ConsultantSearch() {
         return queryString;
     }
 
+    function handleSearch() {
+        setConsultantLoading(true);
+        setError(false);
+        setHasNoResults(false);
+        performSearch();
+    }
+
     return (
         <div style={{marginLeft: "2%"}}>
             <h3>Consultant Search</h3>
@@ -60,7 +74,7 @@ function ConsultantSearch() {
                            onChange={e => handleInputChange(e)}/>
                 </InputGroup>
                 <Button variant="outline-success"
-                        onClick={(e) => performSearch()}>Search</Button>
+                        onClick={(e) => handleSearch()}>Search</Button>
                 <hr/>
 
                 <div>
@@ -72,7 +86,7 @@ function ConsultantSearch() {
                                     <h4>Please search</h4>
                                     <Spinner animation="border" variant="secondary"/>
                                 </div>
-                                : <ConsultantResult />
+                                : (hasNoResults) ? <h4>No results</h4> : <ConsultantResult />
                     }
                 </div>
             </div>
