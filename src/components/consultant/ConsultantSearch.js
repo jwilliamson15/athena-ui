@@ -3,14 +3,14 @@ import axios from "axios";
 import * as Constants from "../../constants/constants";
 import ConsultantResult from "./ConsultantResult";
 import {useDispatch, useSelector} from "react-redux";
-import {saveConsultant, setLoading} from '../actions';
+import {saveConsultant, setConsultantLoading} from '../../store/actions';
 import Button from "react-bootstrap/Button";
 import {InputGroup, Spinner} from "react-bootstrap";
 
 function ConsultantSearch() {
     const dispatch = useDispatch();
     const selectedConsultant = useSelector(state => state.selectedConsultant);
-    const loading = useSelector(state => state.isLoading);
+    const consultantLoading = useSelector(state => state.isConsultantLoading);
     const [error, setError] = useState(false);
     const [employeeNumber, setEmployeeNumber] = useState(selectedConsultant.employeeNumber);
 
@@ -28,7 +28,7 @@ function ConsultantSearch() {
                 if (response.status === 200) {
                     console.log("API GET RESPONSE: " +JSON.stringify(response));
                     dispatch(saveConsultant(response.data));
-                    dispatch(setLoading(false));
+                    dispatch(setConsultantLoading(false));
                 } else {
                     setError(true);
                 }
@@ -66,8 +66,14 @@ function ConsultantSearch() {
 
                 <div>
                     {
-                        (error) ? <h4>Error loading results. Please try again.</h4> : (loading) ?
-                            <Spinner animation="border" variant="secondary" /> : <ConsultantResult />
+                        (error) ?
+                            <h4>Error loading results. Please try again.</h4> :
+                            (consultantLoading) ?
+                                <div>
+                                    <h4>Please search</h4>
+                                    <Spinner animation="border" variant="secondary"/>
+                                </div>
+                                : <ConsultantResult />
                     }
                 </div>
             </div>

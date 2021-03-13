@@ -9,6 +9,8 @@ export const NEW_CONSULTANT_URL = "/athena/consultant/new"
 export const CONSULTANT_SEARCH_URL = "/athena/consultant/search"
 export const CONSULTANT_EDIT_URL = "/athena/consultant/edit"
 
+
+export const EMPTY_SEARCH_PARAMS = [{skillName: "", skillLevel: "ANY"}];
 export const EMPTY_CONSULTANT_OBJECT = {
     name: '',
     employeeNumber: '',

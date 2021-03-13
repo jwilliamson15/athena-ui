@@ -1,7 +1,6 @@
 import React from "react";
 import {useHistory} from "react-router-dom";
 import {SKILL_SEARCH_URL, NEW_CONSULTANT_URL, CONSULTANT_SEARCH_URL} from "../constants/constants";
-import {Col, Container, Row} from "react-bootstrap";
 
 function Home() {
     const history = useHistory();
@@ -19,26 +18,34 @@ function Home() {
     }
 
     return (
-        <Container fluid style={{
-            textAlign: "center"
+        <table style={{
+            width: "95%",
+            height: "78vh",
+            marginLeft: "2.5%",
+            textAlign: "center",
+            tableLayout: "fixed",
+            fontSize: "47pt"
         }}>
-            <Row>
-                <Col style={{
-                    border: "1pt solid lightgrey",
-                    borderRadius: "10px"
-                }} onClick={(e) => skillSearch()}>
-                    <h2>Skill Search</h2>
-                </Col>
-                <Col style={{
-                    border: "1pt solid lightgrey",
-                    borderRadius: "10px"
-                }} onClick={(e) => consultantSearch()}><h2>Consultant Search</h2></Col>
-                <Col style={{
-                    border: "1pt solid lightgrey",
-                    borderRadius: "10px"
-                }} onClick={(e) => newConsultant()}><h2>New Consultant</h2></Col>
-            </Row>
-        </Container>
+            <tbody>
+            <tr>
+                <td style={{
+                    border: "1px solid lightgray"
+                }}
+                    onClick={() => skillSearch()}>Skills Search
+                </td>
+                <td style={{
+                    border: "1px solid lightgray"
+                }}
+                    onClick={() => consultantSearch()}>Consultant Search
+                </td>
+                <td style={{
+                    border: "1px solid lightgray"
+                }}
+                    onClick={() => newConsultant()}>New Consultant
+                </td>
+            </tr>
+            </tbody>
+        </table>
     );
 }
 

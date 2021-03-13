@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from "react-bootstrap/Table";
 import {useDispatch} from "react-redux";
-import {saveConsultant, setLoading} from "../actions";
+import {saveConsultant, setConsultantLoading} from "../../store/actions";
 import {useHistory} from "react-router-dom";
 import {CONSULTANT_SEARCH_URL} from "../../constants/constants";
 
@@ -11,7 +11,7 @@ function ConsultantResultsRow(props) {
 
     function handleClick() {
         dispatch(saveConsultant(props.consultant))
-        dispatch(setLoading(false))
+        dispatch(setConsultantLoading(false))
         history.push(CONSULTANT_SEARCH_URL)
     }
 

@@ -4,12 +4,16 @@ import axios from "axios";
 import * as Constants from "../../constants/constants";
 import Button from "react-bootstrap/Button";
 import {InputGroup, Spinner} from "react-bootstrap";
+import {setSkillLoading, setSearchResults} from "../../store/actions";
+import {useDispatch, useSelector} from "react-redux";
+import {EMPTY_SEARCH_PARAMS} from "../../constants/constants";
 
 function SkillSearch() {
-    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const skillLoading = useSelector(state => state.isSkillLoading);
+    const results = useSelector(state => state.searchResults);
     const [error, setError] = useState(false);
-    const [results, setResults] = useState([]);
-    const [searchParamList, setSearchParamList] = useState([{skillName: "", skillLevel: "ANY"}]);
+    const [searchParamList, setSearchParamList] = useState(EMPTY_SEARCH_PARAMS);
 
     const handleInputChange = (e, index) => {
         const {name, value} = e.target;
@@ -46,8 +50,8 @@ function SkillSearch() {
                         engagementHistory: c.engagementHistory
                     };
                 });
-                setResults(searchResults);
-                setLoading(false);
+                dispatch(setSearchResults(searchResults))
+                dispatch(setSkillLoading(false));
             })
             .catch(error => {
                 console.log(error);
@@ -129,8 +133,14 @@ function SkillSearch() {
 
                 <div>
                     {
-                        (error) ? <h4>Error loading results. Please try again.</h4> : (loading) ?
-                            <Spinner animation="border" variant="secondary"/> : <SkillResult result={results}/>
+                        (error) ?
+                            <h4>Error loading results. Please try again.</h4> :
+                            (skillLoading) ?
+                                <div>
+                                    <h4>Please search</h4>
+                                    <Spinner animation="border" variant="secondary"/>
+                                </div>
+                                : <SkillResult result={results}/>
                     }
                 </div>
             </div>

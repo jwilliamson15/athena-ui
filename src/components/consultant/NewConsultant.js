@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import React from "react";
-import {saveConsultant} from "../actions";
+import {saveConsultant} from "../../store/actions";
 import * as Constants from "../../constants/constants";
 import axios from "axios";
 import {Field, FieldArray, Form, Formik} from "formik";

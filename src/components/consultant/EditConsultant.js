@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Formik, Form, Field, FieldArray} from 'formik';
 import {useDispatch, useSelector} from "react-redux";
-import {saveConsultant} from "../actions";
+import {saveConsultant} from "../../store/actions";
 import axios from "axios";
 import * as Constants from "../../constants/constants";
 import {Button, InputGroup} from "react-bootstrap";
