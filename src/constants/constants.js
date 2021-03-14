@@ -11,11 +11,13 @@ export const CONSULTANT_EDIT_URL = "/athena/consultant/edit"
 
 
 export const EMPTY_SEARCH_PARAMS = [{skillName: "", skillLevel: "ANY"}];
+export const EMPTY_SKILL_OBJECT = {name: '', experienceTime: '', skillLevel: ''};
+export const EMPTY_ENGAGEMENT_OBJECT = {name: '', description: '', duration: ''};
 export const EMPTY_CONSULTANT_OBJECT = {
     name: '',
     employeeNumber: '',
     jobRole: '',
     personDescription: '',
-    skills: [{name: '', experienceTime: '', skillLevel: ''}],
-    engagementHistory: [{name: '', description: '', duration: ''}]
+    skills: [],
+    engagementHistory: []
 };

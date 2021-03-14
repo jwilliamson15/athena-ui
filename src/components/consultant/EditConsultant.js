@@ -7,34 +7,57 @@ import * as Constants from "../../constants/constants";
 import {Alert, Button, Col, Container, InputGroup, Modal, Row} from "react-bootstrap";
 import {
     CONSULTANT_EDIT_URL,
-    EMPTY_CONSULTANT_OBJECT,
+    EMPTY_CONSULTANT_OBJECT, EMPTY_ENGAGEMENT_OBJECT, EMPTY_SKILL_OBJECT,
     HOME_URL,
     NEW_CONSULTANT_URL
 } from "../../constants/constants";
 import {useHistory} from "react-router-dom";
+import * as Yup from 'yup';
 
-//TODO - numeric validation on nested fields for skill and engagements
-function validateMandatoryField(value) {
-    let error;
-
-    if (!value) {
-        error = 'Required';
-    }
-
-    return error;
-}
-
-function validateMandatory200Char(name) {
-    let error;
-
-    if (!name) {
-        error = 'Required';
-    } else if (name.length > 200) {
-        error = 'Name must be 200 characters or less';
-    }
-
-    return error;
-}
+const consultantValidationSchema = Yup.object().shape({
+    name: Yup.string()
+        .min(2, 'Must be at least 2 characters')
+        .max(200, 'Must be less than 200 characters')
+        .required('Required'),
+    employeeNumber: Yup.number()
+        .positive('Must be a positive whole number')
+        .integer('Must be a positive whole number')
+        .typeError('Must be numeric')
+        .required('Required'),
+    jobRole: Yup.string()
+        .min(2, 'Must be at least 2 characters')
+        .max(200, 'Must be less than 200 characters'),
+    personDescription: Yup.string()
+        .min(2, 'Must be at least 2 characters')
+        .max(200, 'Must be less than 200 characters'),
+    skills: Yup.array().of(Yup.object().shape({
+        name: Yup.string()
+            .min(2, 'Must be at least 2 characters')
+            .max(200, 'Must be less than 200 characters')
+            .required('Required'),
+        skillLevel: Yup.string()
+            .required('Required'),
+        experienceTime: Yup.number()
+            .positive('Must be a positive whole number')
+            .integer('Must be a positive whole number')
+            .typeError('Must be numeric')
+            .required('Required')
+    })),
+    engagementHistory: Yup.array().of(Yup.object().shape({
+        name: Yup.string()
+            .min(2, 'Must be at least 2 characters')
+            .max(200, 'Must be less than 200 characters')
+            .required('Required'),
+        description: Yup.string()
+            .min(2, 'Must be at least 2 characters')
+            .required('Required'),
+        duration: Yup.number()
+            .positive('Must be a positive whole number')
+            .integer('Must be a positive whole number')
+            .typeError('Must be numeric')
+            .required('Required')
+    }))
+})
 
 function EditConsultant(props) {
     const selectedConsultant = useSelector(state => state.selectedConsultant);
@@ -132,7 +155,7 @@ function EditConsultant(props) {
     const handleCloseModal = () => {
         deleteConsultant();
         setShowModal(false);
-    };
+    }
 
     const handleEscapeModal = () => {
         setShowModal(false);
@@ -140,7 +163,7 @@ function EditConsultant(props) {
 
     const handleShowModal = () => {
         setShowModal(true);
-    };
+    }
 
     const handleCloseAlert = () => {
         setShowAlert(false)
@@ -204,6 +227,7 @@ function EditConsultant(props) {
 
             <Formik
                 initialValues={selectedConsultant}
+                validationSchema={consultantValidationSchema}
                 onSubmit={values =>
                     saveConsultantInfo(values)
                 }
@@ -213,7 +237,7 @@ function EditConsultant(props) {
                             <InputGroup.Prepend>
                                 <InputGroup.Text>Name</InputGroup.Text>
                             </InputGroup.Prepend>
-                            <Field name="name" validate={validateMandatory200Char}/>
+                            <Field name="name"/>
                             {errors.name && touched.name && <div>{errors.name}</div>}
                         </InputGroup>
 
@@ -222,10 +246,9 @@ function EditConsultant(props) {
                                 <InputGroup.Text>Employee Number</InputGroup.Text>
                             </InputGroup.Prepend>
                             {(isNewConsultant) ?
-                                <Field name="employeeNumber" validate={validateMandatoryField}/>
+                                <Field name="employeeNumber"/>
                                 :
-                                <Field name="employeeNumber" validate={validateMandatoryField}
-                                       disabled/>
+                                <Field name="employeeNumber" disabled/>
                             }
                             {errors.employeeNumber && touched.employeeNumber &&
                             <div>{errors.employeeNumber}</div>}
@@ -235,7 +258,7 @@ function EditConsultant(props) {
                             <InputGroup.Prepend>
                                 <InputGroup.Text>Job Role</InputGroup.Text>
                             </InputGroup.Prepend>
-                            <Field name="jobRole" validate={validateMandatory200Char}/>
+                            <Field name="jobRole"/>
                             {errors.jobRole && touched.jobRole && <div>{errors.jobRole}</div>}
                         </InputGroup>
 
@@ -244,6 +267,8 @@ function EditConsultant(props) {
                                 <InputGroup.Text>Description</InputGroup.Text>
                             </InputGroup.Prepend>
                             <Field name="personDescription"/>
+                            {errors.personDescription && touched.personDescription
+                            && <div>{errors.personDescription}</div>}
                         </InputGroup>
 
 
@@ -258,20 +283,37 @@ function EditConsultant(props) {
                                                 <InputGroup.Prepend className="mb-2">
                                                     <InputGroup.Text>Name</InputGroup.Text>
                                                     <Field name={`skills[${index}].name`}/>
+                                                    {errors &&
+                                                    errors.skills &&
+                                                    errors.skills[index] &&
+                                                    errors.skills[index].name &&
+                                                    touched &&
+                                                    touched.skills &&
+                                                    touched.skills[index] &&
+                                                    touched.skills[index].name &&
+                                                    <div>{errors.skills[index].name}</div>}
                                                 </InputGroup.Prepend>
 
                                                 <InputGroup.Prepend className="mb-2">
                                                     <InputGroup.Text>Experience
-                                                        Time</InputGroup.Text>
-                                                    <Field
-                                                        name={`skills[${index}].experienceTime`}/>
+                                                        Time (years)</InputGroup.Text>
+                                                    <Field name={`skills[${index}].experienceTime`}/>
+                                                    {errors &&
+                                                    errors.skills &&
+                                                    errors.skills[index] &&
+                                                    errors.skills[index].experienceTime &&
+                                                    touched &&
+                                                    touched.skills &&
+                                                    touched.skills[index] &&
+                                                    touched.skills[index].experienceTime &&
+                                                    <div>{errors.skills[index].experienceTime}</div>}
                                                 </InputGroup.Prepend>
 
                                                 <InputGroup.Prepend className="mb-2">
                                                     <InputGroup.Text>Level</InputGroup.Text>
                                                     <Field as="select"
                                                            name={`skills[${index}].skillLevel`}>
-                                                        <option value="">All</option>
+                                                        <option value=""></option>
                                                         <option value="BASELINE">Baseline
                                                         </option>
                                                         <option value="PROGRESSING">Progressing
@@ -282,6 +324,15 @@ function EditConsultant(props) {
                                                         </option>
                                                         <option value="MASTER">Master</option>
                                                     </Field>
+                                                    {errors &&
+                                                    errors.skills &&
+                                                    errors.skills[index] &&
+                                                    errors.skills[index].skillLevel &&
+                                                    touched &&
+                                                    touched.skills &&
+                                                    touched.skills[index] &&
+                                                    touched.skills[index].skillLevel &&
+                                                    <div>{errors.skills[index].skillLevel}</div>}
 
                                                     <Button variant="outline-danger"
                                                             style={{marginLeft: "2%"}}
@@ -291,13 +342,7 @@ function EditConsultant(props) {
                                                 </InputGroup.Prepend>
                                             </div>
                                         ))}
-                                        <Button variant="outline-primary"
-                                                onClick={() => arrayHelpers.push({
-                                                    name: '',
-                                                    experienceTime: '',
-                                                    skillLevel: ''
-                                                })}
-                                        >
+                                        <Button variant="outline-primary" onClick={() => arrayHelpers.push(EMPTY_SKILL_OBJECT)}>
                                             Add Skill
                                         </Button>
                                     </div>
@@ -316,21 +361,44 @@ function EditConsultant(props) {
                                             <div key={index}>
                                                 <InputGroup.Prepend className="mb-2">
                                                     <InputGroup.Text>Name</InputGroup.Text>
-                                                    <Field
-                                                        name={`engagementHistory[${index}].name`}/>
+                                                    <Field name={`engagementHistory[${index}].name`}/>
+                                                    {errors &&
+                                                    errors.engagementHistory &&
+                                                    errors.engagementHistory[index] &&
+                                                    errors.engagementHistory[index].name &&
+                                                    touched &&
+                                                    touched.engagementHistory &&
+                                                    touched.engagementHistory[index] &&
+                                                    touched.engagementHistory[index].name &&
+                                                    <div>{errors.engagementHistory[index].name}</div>}
                                                 </InputGroup.Prepend>
 
                                                 <InputGroup.Prepend className="mb-2">
                                                     <InputGroup.Text>Description</InputGroup.Text>
-                                                    <Field
-                                                        name={`engagementHistory[${index}].description`}/>
+                                                    <Field name={`engagementHistory[${index}].description`}/>
+                                                    {errors &&
+                                                    errors.engagementHistory &&
+                                                    errors.engagementHistory[index] &&
+                                                    errors.engagementHistory[index].description &&
+                                                    touched &&
+                                                    touched.engagementHistory &&
+                                                    touched.engagementHistory[index] &&
+                                                    touched.engagementHistory[index].description &&
+                                                    <div>{errors.engagementHistory[index].description}</div>}
                                                 </InputGroup.Prepend>
 
                                                 <InputGroup.Prepend className="mb-2">
-                                                    <InputGroup.Text>Duration</InputGroup.Text>
-                                                    <Field
-                                                        name={`engagementHistory[${index}].duration`}/>
-
+                                                    <InputGroup.Text>Duration (years)</InputGroup.Text>
+                                                    <Field name={`engagementHistory[${index}].duration`}/>
+                                                    {errors &&
+                                                    errors.engagementHistory &&
+                                                    errors.engagementHistory[index] &&
+                                                    errors.engagementHistory[index].duration &&
+                                                    touched &&
+                                                    touched.engagementHistory &&
+                                                    touched.engagementHistory[index] &&
+                                                    touched.engagementHistory[index].duration &&
+                                                    <div>{errors.engagementHistory[index].duration}</div>}
 
                                                     <Button variant="outline-danger"
                                                             style={{
@@ -338,19 +406,13 @@ function EditConsultant(props) {
                                                                 minWidth: "180px"
                                                             }}
                                                             onClick={() => arrayHelpers.remove(index)}>
-                                                        Remove Engagment
+                                                        Remove Engagement
                                                     </Button>
                                                 </InputGroup.Prepend>
 
                                             </div>
                                         ))}
-                                        <Button variant="outline-primary"
-                                                onClick={() => arrayHelpers.push({
-                                                    name: '',
-                                                    description: '',
-                                                    duration: ''
-                                                })}
-                                        >
+                                        <Button variant="outline-primary" onClick={() => arrayHelpers.push(EMPTY_ENGAGEMENT_OBJECT)}>
                                             Add Engagement
                                         </Button>
                                     </div>
