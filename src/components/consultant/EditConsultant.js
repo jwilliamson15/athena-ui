@@ -88,13 +88,6 @@ function EditConsultant(props) {
         } else {
             apiPutCall(consultant)
         }
-
-        dispatch(saveConsultant(consultant))
-        dispatch(setConsultantLoading(false))
-
-        if (isNewConsultant) {
-            history.push(CONSULTANT_EDIT_URL)
-        }
     }
 
     function apiPostCall(consultant) {
@@ -106,8 +99,12 @@ function EditConsultant(props) {
             if (response.status == 200) {
                 handleInformationModal("success", "Added " + consultant.name,
                     consultant.name + " has been successfully added.");
+                dispatch(saveConsultant(consultant))
+                dispatch(setConsultantLoading(false))
+                history.push(CONSULTANT_EDIT_URL)
             }
-        }).catch(function (error) {
+        }).catch(error => {
+            console.log("Caught error: " + error.toString())
             if (error.response) {
                 console.log(error.response.toString());
                 switch (error.response.status) {
@@ -120,8 +117,13 @@ function EditConsultant(props) {
                             "An error has occurred. Please try again. Error code: " + error.response.status);
                         break;
                     default:
+                        handleInformationModal("danger", "Error",
+                            "An error has occurred. Please try again. Error code: " + error.response.status);
                         break;
                 }
+            } else {
+                handleInformationModal("danger", "Error",
+                    "An error has occurred. Please try again. \n\n" +error);
             }
         })
     }
@@ -142,7 +144,8 @@ function EditConsultant(props) {
                 }
             })
             .catch(error => {
-                console.log(error)
+                handleInformationModal("danger", "Error",
+                    "An error has occurred. Please try again. \n\n" +error);
             })
     }
 
