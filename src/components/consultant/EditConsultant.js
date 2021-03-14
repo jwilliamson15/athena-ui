@@ -63,9 +63,14 @@ function EditConsultant(props) {
     const selectedConsultant = useSelector(state => state.selectedConsultant);
     const dispatch = useDispatch();
     const history = useHistory();
-    const [showModal, setShowModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
     let isNewConsultant = props.isNewConsultant;
+
+    const [showInformationModal, setShowInformationModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalMessage, setModalMessage] = useState("");
+    const [modalVariant, setModalVariant] = useState("");
 
     function saveConsultantInfo(consultant) {
         if (isNewConsultant) {
@@ -76,7 +81,10 @@ function EditConsultant(props) {
 
         dispatch(saveConsultant(consultant))
         dispatch(setConsultantLoading(false))
-        history.push(CONSULTANT_EDIT_URL)
+
+        if (isNewConsultant) {
+            history.push(CONSULTANT_EDIT_URL)
+        }
     }
 
     function apiPostCall(consultant) {
@@ -86,17 +94,20 @@ function EditConsultant(props) {
             {headers: {"Content-Type": "application/json"}}
         ).then(response => {
             if (response.status == 200) {
-                alert("Success!" + consultant.name + "has been added.");
+                handleInformationModal("success", "Added "+consultant.name,
+                    consultant.name+" has been successfully added.");
             }
         }).catch(function (error) {
             if (error.response) {
                 console.log(error.response.toString());
                 switch (error.response.status) {
                     case 409:
-                        alert("Conflict! This consultant already exists. Please use a unique employee number.");
+                        handleInformationModal("warning", "Conflict",
+                            "This consultant already exists. Please use a unique employee number.");
                         break;
                     case 400:
-                        alert("Error" + error.response.status + error.response.data);
+                        handleInformationModal("danger", "Error",
+                            "An error has occurred. Please try again. Error code: "+error.response.status);
                         break;
                     default:
                         break;
@@ -116,7 +127,8 @@ function EditConsultant(props) {
             )
             .then(response => {
                 if (response.status == 200) {
-                    alert(consultant.name + " successfully updated.")
+                    handleInformationModal("success", "Updated "+consultant.name,
+                        consultant.name+" has been successfully updated.");
                 }
             })
             .catch(error => {
@@ -154,20 +166,25 @@ function EditConsultant(props) {
 
     const handleCloseModal = () => {
         deleteConsultant();
-        setShowModal(false);
+        setShowDeleteModal(false);
     }
 
     const handleEscapeModal = () => {
-        setShowModal(false);
-    }
-
-    const handleShowModal = () => {
-        setShowModal(true);
+        setShowDeleteModal(false);
+        setShowInformationModal(false);
     }
 
     const handleCloseAlert = () => {
         setShowAlert(false)
         history.push(HOME_URL);
+    }
+
+    const handleInformationModal = (variant, title, message) => {
+        console.log(variant, title, message)
+        setModalVariant(variant);
+        setModalTitle(title);
+        setModalMessage(message);
+        setShowInformationModal(true);
     }
 
     return (
@@ -192,11 +209,11 @@ function EditConsultant(props) {
                         right: "2%"
                     }}
                             variant="danger"
-                            onClick={() => handleShowModal()}>Delete Consultant</Button>
+                            onClick={() => setShowDeleteModal(true)}>Delete Consultant</Button>
                 </div>
             }
 
-            <Modal show={showModal} onHide={handleEscapeModal} centered>
+            <Modal show={showDeleteModal} onHide={handleEscapeModal} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Deleting {selectedConsultant.name}</Modal.Title>
                 </Modal.Header>
@@ -205,6 +222,16 @@ function EditConsultant(props) {
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleEscapeModal}>Cancel</Button>
                     <Button variant="danger" onClick={handleCloseModal}>Delete</Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={showInformationModal} onHide={handleEscapeModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>{modalTitle}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>{modalMessage}</Modal.Body>
+                <Modal.Footer>
+                    <Button variant={modalVariant} onClick={handleEscapeModal}>Confirm</Button>
                 </Modal.Footer>
             </Modal>
 

@@ -147,13 +147,13 @@ function SkillSearch() {
                     {
                         (error) ?
                             <h4>Error loading results. Please try again.</h4> :
+                            (hasNoResults) ? <h4>No results</h4> :
                             (skillLoading) ?
                                 <div>
                                     <h4>Please search</h4>
                                     <Spinner animation="border" variant="secondary"/>
                                 </div>
-                                : (hasNoResults) ? <h4>No results</h4> :
-                                <SkillResult result={results}/>
+                                : <SkillResult result={results}/>
                     }
                 </div>
             </div>

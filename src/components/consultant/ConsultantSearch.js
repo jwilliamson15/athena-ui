@@ -28,7 +28,6 @@ function ConsultantSearch() {
                 if (response.status == 200) {
                     if (response.data == "") {
                         setHasNoResults(true);
-                        dispatch(setConsultantLoading(false));
                         console.log("hasNoResults: " + hasNoResults);
                         console.log("consultant loading: " + consultantLoading);
                     } else {
@@ -81,12 +80,13 @@ function ConsultantSearch() {
                     {
                         (error) ?
                             <h4>Error loading results. Please try again.</h4> :
+                            (hasNoResults) ? <h4>No results</h4> :
                             (consultantLoading) ?
                                 <div>
                                     <h4>Please search</h4>
                                     <Spinner animation="border" variant="secondary"/>
                                 </div>
-                                : (hasNoResults) ? <h4>No results</h4> : <ConsultantResult />
+                                : <ConsultantResult />
                     }
                 </div>
             </div>
