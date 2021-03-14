@@ -3,7 +3,9 @@ import SkillResultsRow from "./SkillResultsRow.js";
 import Table from 'react-bootstrap/Table'
 
 const SkillResultsTable = props =>
-    <div>
+    <div style={{
+        width: "97%"
+    }}>
         <Table striped bordered hover>
             <thead>
             <tr>

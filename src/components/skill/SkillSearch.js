@@ -13,6 +13,7 @@ function SkillSearch() {
     const skillLoading = useSelector(state => state.isSkillLoading);
     const results = useSelector(state => state.searchResults);
     const [error, setError] = useState(false);
+    const [hasNoResults, setHasNoResults] = useState(false);
     const [searchParamList, setSearchParamList] = useState(EMPTY_SEARCH_PARAMS);
 
     const handleInputChange = (e, index) => {
@@ -34,24 +35,29 @@ function SkillSearch() {
 
     function performSearch() {
         const queryString = buildSearchQuery();
-        setError(false);
 
         axios
             .get(Constants.API_SKILL_SEARCH_URL + queryString)
             .then(response => {
-                const searchResults = response.data.map(c => {
-                    return {
-                        id: c._id,
-                        name: c.name,
-                        employeeNumber: c.employeeNumber,
-                        jobRole: c.jobRole,
-                        personDescription: c.personDescription,
-                        skills: c.skills,
-                        engagementHistory: c.engagementHistory
-                    };
-                });
-                dispatch(setSearchResults(searchResults))
-                dispatch(setSkillLoading(false));
+                if (response.status == 200) {
+                    if (response.data == "") {
+                        setHasNoResults(true);
+                    } else {
+                        const searchResults = response.data.map(c => {
+                            return {
+                                id: c._id,
+                                name: c.name,
+                                employeeNumber: c.employeeNumber,
+                                jobRole: c.jobRole,
+                                personDescription: c.personDescription,
+                                skills: c.skills,
+                                engagementHistory: c.engagementHistory
+                            };
+                        });
+                        dispatch(setSearchResults(searchResults))
+                        dispatch(setSkillLoading(false));
+                    }
+                }
             })
             .catch(error => {
                 console.log(error);
@@ -85,6 +91,12 @@ function SkillSearch() {
         return queryString;
     }
 
+    function handleSearch() {
+        setHasNoResults(false);
+        setError(false);
+        performSearch();
+    }
+
     return (
         <div style={{marginLeft: "2%"}}>
             <h2>Skill Search</h2>
@@ -93,7 +105,7 @@ function SkillSearch() {
                     return (
                         <div>
                             <InputGroup className="mb-3">
-                                <InputGroup.Prepend >
+                                <InputGroup.Prepend>
                                     <InputGroup.Text>Skill Name</InputGroup.Text>
                                 </InputGroup.Prepend>
                                 <input name="skillName" value={queryParam.skillName}
@@ -127,7 +139,7 @@ function SkillSearch() {
 
                 <div>
                     <Button variant="outline-success"
-                            onClick={(e) => performSearch()}>Search</Button>
+                            onClick={(e) => handleSearch()}>Search</Button>
                 </div>
                 <hr/>
 
@@ -140,7 +152,8 @@ function SkillSearch() {
                                     <h4>Please search</h4>
                                     <Spinner animation="border" variant="secondary"/>
                                 </div>
-                                : <SkillResult result={results}/>
+                                : (hasNoResults) ? <h4>No results</h4> :
+                                <SkillResult result={results}/>
                     }
                 </div>
             </div>
