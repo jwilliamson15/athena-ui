@@ -158,12 +158,6 @@ function EditConsultant(props) {
             })
     }
 
-    function clearForm() {
-        dispatch(saveConsultant(EMPTY_CONSULTANT_OBJECT))
-        setConsultantLoading(true)
-        history.push(NEW_CONSULTANT_URL)
-    }
-
     const handleCloseModal = () => {
         deleteConsultant();
         setShowDeleteModal(false);
@@ -180,11 +174,18 @@ function EditConsultant(props) {
     }
 
     const handleInformationModal = (variant, title, message) => {
-        console.log(variant, title, message)
         setModalVariant(variant);
         setModalTitle(title);
         setModalMessage(message);
         setShowInformationModal(true);
+    }
+
+    const initialiseForm = () => {
+        if (isNewConsultant) {
+            return EMPTY_CONSULTANT_OBJECT;
+        } else {
+            return selectedConsultant;
+        }
     }
 
     return (
@@ -195,13 +196,6 @@ function EditConsultant(props) {
             </div>
 
             {(isNewConsultant) ?
-                //TODO - clear form button/clear form for new consultants
-                // <div>
-                //     <Button
-                //         className="ml-3"
-                //         variant="outline-secondary"
-                //         onClick={() => clearForm()}>Clear form</Button>
-                // </div>
                 null
                 : <div>
                     <Button style={{
@@ -253,7 +247,7 @@ function EditConsultant(props) {
 
 
             <Formik
-                initialValues={selectedConsultant}
+                initialValues={initialiseForm()}
                 validationSchema={consultantValidationSchema}
                 onSubmit={values =>
                     saveConsultantInfo(values)
