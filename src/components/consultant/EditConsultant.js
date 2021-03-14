@@ -213,7 +213,7 @@ function EditConsultant(props) {
                 : <div>
                     <Button style={{
                         position: "absolute",
-                        right: "2%"
+                        right: "3%"
                     }}
                             variant="danger"
                             onClick={() => setShowDeleteModal(true)}>Delete Consultant</Button>
@@ -529,8 +529,11 @@ function EditConsultant(props) {
                             />
                         </InputGroup>
 
-                        <div className="pb-5">
-                            <Button variant="outline-success"
+                        <div className="pb-5" style={{
+                            position: "absolute",
+                            right: "3%"
+                        }}>
+                            <Button variant="success"
                                     type="submit">Submit</Button>
                         </div>
                     </Form>

@@ -12,6 +12,14 @@ function ConsultantResult() {
             <div>
                 <Card>
                     <Card.Body>
+                        <div className="mb-5" style={{
+                            position: "absolute",
+                            right: "2%"
+                        }}>
+                            <Link to={CONSULTANT_EDIT_URL}>
+                                <Button variant="outline-info">Edit</Button>
+                            </Link>
+                        </div>
                         <Card.Title>{selectedConsultant.name.toString()}</Card.Title>
                         <Card.Subtitle
                             className="mb-3">{selectedConsultant.jobRole.toString()}</Card.Subtitle>
@@ -88,13 +96,6 @@ function ConsultantResult() {
                         </Card.Text>
                     </Card.Body>
                 </Card>
-            </div>
-
-            <hr/>
-            <div className="pb-5">
-                <Link to={CONSULTANT_EDIT_URL}>
-                    <Button variant="outline-info">Edit</Button>
-                </Link>
             </div>
         </div>
     )
