@@ -4,7 +4,17 @@ import {useDispatch, useSelector} from "react-redux";
 import {saveConsultant, setConsultantLoading} from "../../store/actions";
 import axios from "axios";
 import * as Constants from "../../constants/constants";
-import {Alert, Button, Col, Container, InputGroup, Modal, Row} from "react-bootstrap";
+import {
+    Alert,
+    Button,
+    Card,
+    CardDeck,
+    Col,
+    Container,
+    InputGroup,
+    Modal,
+    Row
+} from "react-bootstrap";
 import {
     CONSULTANT_EDIT_URL,
     EMPTY_CONSULTANT_OBJECT, EMPTY_ENGAGEMENT_OBJECT, EMPTY_SKILL_OBJECT,
@@ -94,8 +104,8 @@ function EditConsultant(props) {
             {headers: {"Content-Type": "application/json"}}
         ).then(response => {
             if (response.status == 200) {
-                handleInformationModal("success", "Added "+consultant.name,
-                    consultant.name+" has been successfully added.");
+                handleInformationModal("success", "Added " + consultant.name,
+                    consultant.name + " has been successfully added.");
             }
         }).catch(function (error) {
             if (error.response) {
@@ -107,7 +117,7 @@ function EditConsultant(props) {
                         break;
                     case 400:
                         handleInformationModal("danger", "Error",
-                            "An error has occurred. Please try again. Error code: "+error.response.status);
+                            "An error has occurred. Please try again. Error code: " + error.response.status);
                         break;
                     default:
                         break;
@@ -127,8 +137,8 @@ function EditConsultant(props) {
             )
             .then(response => {
                 if (response.status == 200) {
-                    handleInformationModal("success", "Updated "+consultant.name,
-                        consultant.name+" has been successfully updated.");
+                    handleInformationModal("success", "Updated " + consultant.name,
+                        consultant.name + " has been successfully updated.");
                 }
             })
             .catch(error => {
@@ -256,42 +266,48 @@ function EditConsultant(props) {
                     <Form>
                         <InputGroup className="mb-3">
                             <InputGroup.Prepend>
-                                <InputGroup.Text>Name</InputGroup.Text>
+                                <InputGroup.Text style={{width: "202px"}}>Full
+                                    Name</InputGroup.Text>
                             </InputGroup.Prepend>
-                            <Field name="name"/>
-                            {errors.name && touched.name && <div>{errors.name}</div>}
+                            <Field style={{width: "300px"}} name="name"/>
+                            {errors.name && touched.name &&
+                            <div className="ml-3" style={{color: "red"}}>{errors.name}</div>}
                         </InputGroup>
 
                         <InputGroup className="mb-3">
                             <InputGroup.Prepend>
-                                <InputGroup.Text>Employee Number</InputGroup.Text>
+                                <InputGroup.Text style={{width: "202px"}}>Employee
+                                    Number</InputGroup.Text>
                             </InputGroup.Prepend>
                             {(isNewConsultant) ?
-                                <Field name="employeeNumber"/>
+                                <Field style={{width: "300px"}} name="employeeNumber"/>
                                 :
-                                <Field name="employeeNumber" disabled/>
+                                <Field style={{width: "300px"}} name="employeeNumber" disabled/>
                             }
                             {errors.employeeNumber && touched.employeeNumber &&
-                            <div>{errors.employeeNumber}</div>}
+                            <div className="ml-3"
+                                 style={{color: "red"}}>{errors.employeeNumber}</div>}
                         </InputGroup>
 
                         <InputGroup className="mb-3">
                             <InputGroup.Prepend>
-                                <InputGroup.Text>Job Role</InputGroup.Text>
+                                <InputGroup.Text style={{width: "202px"}}>Job Role</InputGroup.Text>
                             </InputGroup.Prepend>
-                            <Field name="jobRole"/>
-                            {errors.jobRole && touched.jobRole && <div>{errors.jobRole}</div>}
+                            <Field style={{width: "300px"}} name="jobRole"/>
+                            {errors.jobRole && touched.jobRole &&
+                            <div className="ml-3" style={{color: "red"}}>{errors.jobRole}</div>}
                         </InputGroup>
 
                         <InputGroup className="mb-3">
                             <InputGroup.Prepend>
-                                <InputGroup.Text>Description</InputGroup.Text>
+                                <InputGroup.Text
+                                    style={{width: "202px"}}>Description</InputGroup.Text>
                             </InputGroup.Prepend>
-                            <Field name="personDescription"/>
+                            <Field style={{width: "300px"}} name="personDescription"/>
                             {errors.personDescription && touched.personDescription
-                            && <div>{errors.personDescription}</div>}
+                            && <div className="ml-3"
+                                    style={{color: "red"}}>{errors.personDescription}</div>}
                         </InputGroup>
-
 
                         <h4>Skills</h4>
                         <InputGroup className="mb-3">
@@ -299,71 +315,108 @@ function EditConsultant(props) {
                                 name="skills"
                                 render={arrayHelpers => (
                                     <div>
-                                        {values.skills.map((skill, index) => (
-                                            <div key={index}>
-                                                <InputGroup.Prepend className="mb-2">
-                                                    <InputGroup.Text>Name</InputGroup.Text>
-                                                    <Field name={`skills[${index}].name`}/>
-                                                    {errors &&
-                                                    errors.skills &&
-                                                    errors.skills[index] &&
-                                                    errors.skills[index].name &&
-                                                    touched &&
-                                                    touched.skills &&
-                                                    touched.skills[index] &&
-                                                    touched.skills[index].name &&
-                                                    <div>{errors.skills[index].name}</div>}
-                                                </InputGroup.Prepend>
+                                        <CardDeck>
+                                            {values.skills.map((skill, index) => (
+                                                <div key={index}>
+                                                    <Card className="mb-3">
+                                                        <Card.Body>
+                                                            <Container>
+                                                                <Card.Text>
+                                                                    <Row>
+                                                                        <InputGroup.Prepend
+                                                                            className="mb-2">
+                                                                            <InputGroup.Text
+                                                                                style={{width: "202px"}}>Name</InputGroup.Text>
+                                                                            <Field
+                                                                                name={`skills[${index}].name`}/>
+                                                                        </InputGroup.Prepend>
+                                                                    </Row>
+                                                                    {errors &&
+                                                                    errors.skills &&
+                                                                    errors.skills[index] &&
+                                                                    errors.skills[index].name &&
+                                                                    touched &&
+                                                                    touched.skills &&
+                                                                    touched.skills[index] &&
+                                                                    touched.skills[index].name &&
+                                                                    <Row className="mb-3"
+                                                                         style={{color: "red"}}>{errors.skills[index].name}</Row>}
 
-                                                <InputGroup.Prepend className="mb-2">
-                                                    <InputGroup.Text>Experience
-                                                        Time (years)</InputGroup.Text>
-                                                    <Field name={`skills[${index}].experienceTime`}/>
-                                                    {errors &&
-                                                    errors.skills &&
-                                                    errors.skills[index] &&
-                                                    errors.skills[index].experienceTime &&
-                                                    touched &&
-                                                    touched.skills &&
-                                                    touched.skills[index] &&
-                                                    touched.skills[index].experienceTime &&
-                                                    <div>{errors.skills[index].experienceTime}</div>}
-                                                </InputGroup.Prepend>
+                                                                    <Row>
+                                                                        <InputGroup.Prepend
+                                                                            className="mb-2">
+                                                                            <InputGroup.Text>Experience
+                                                                                Time
+                                                                                (years)</InputGroup.Text>
+                                                                            <Field
+                                                                                name={`skills[${index}].experienceTime`}/>
+                                                                        </InputGroup.Prepend>
+                                                                    </Row>
+                                                                    {errors &&
+                                                                    errors.skills &&
+                                                                    errors.skills[index] &&
+                                                                    errors.skills[index].experienceTime &&
+                                                                    touched &&
+                                                                    touched.skills &&
+                                                                    touched.skills[index] &&
+                                                                    touched.skills[index].experienceTime &&
+                                                                    <Row className="mb-3"
+                                                                         style={{color: "red"}}>{errors.skills[index].experienceTime}</Row>}
 
-                                                <InputGroup.Prepend className="mb-2">
-                                                    <InputGroup.Text>Level</InputGroup.Text>
-                                                    <Field as="select"
-                                                           name={`skills[${index}].skillLevel`}>
-                                                        <option value=""></option>
-                                                        <option value="BASELINE">Baseline
-                                                        </option>
-                                                        <option value="PROGRESSING">Progressing
-                                                        </option>
-                                                        <option value="PROFICIENT">Proficient
-                                                        </option>
-                                                        <option value="EXPERIENCED">Experienced
-                                                        </option>
-                                                        <option value="MASTER">Master</option>
-                                                    </Field>
-                                                    {errors &&
-                                                    errors.skills &&
-                                                    errors.skills[index] &&
-                                                    errors.skills[index].skillLevel &&
-                                                    touched &&
-                                                    touched.skills &&
-                                                    touched.skills[index] &&
-                                                    touched.skills[index].skillLevel &&
-                                                    <div>{errors.skills[index].skillLevel}</div>}
+                                                                    <Row>
+                                                                        <InputGroup.Prepend
+                                                                            className="mb-2">
+                                                                            <InputGroup.Text>Level</InputGroup.Text>
+                                                                            <Field as="select"
+                                                                                   style={{position: "relative"}}
+                                                                                   name={`skills[${index}].skillLevel`}>
+                                                                                <option
+                                                                                    value=""></option>
+                                                                                <option
+                                                                                    value="BASELINE">Baseline
+                                                                                </option>
+                                                                                <option
+                                                                                    value="PROGRESSING">Progressing
+                                                                                </option>
+                                                                                <option
+                                                                                    value="PROFICIENT">Proficient
+                                                                                </option>
+                                                                                <option
+                                                                                    value="EXPERIENCED">Experienced
+                                                                                </option>
+                                                                                <option
+                                                                                    value="MASTER">Master
+                                                                                </option>
+                                                                            </Field>
+                                                                        </InputGroup.Prepend>
+                                                                    </Row>
+                                                                    {errors &&
+                                                                    errors.skills &&
+                                                                    errors.skills[index] &&
+                                                                    errors.skills[index].skillLevel &&
+                                                                    touched &&
+                                                                    touched.skills &&
+                                                                    touched.skills[index] &&
+                                                                    touched.skills[index].skillLevel &&
+                                                                    <Row className="mb-3"
+                                                                         style={{color: "red"}}>{errors.skills[index].skillLevel}</Row>}
 
-                                                    <Button variant="outline-danger"
-                                                            style={{marginLeft: "2%"}}
-                                                            onClick={() => arrayHelpers.remove(index)}>
-                                                        Remove Skill
-                                                    </Button>
-                                                </InputGroup.Prepend>
-                                            </div>
-                                        ))}
-                                        <Button variant="outline-primary" onClick={() => arrayHelpers.push(EMPTY_SKILL_OBJECT)}>
+                                                                    <Row>
+                                                                        <Button
+                                                                            variant="outline-danger"
+                                                                            onClick={() => arrayHelpers.remove(index)}>
+                                                                            Remove Skill
+                                                                        </Button>
+                                                                    </Row>
+                                                                </Card.Text>
+                                                            </Container>
+                                                        </Card.Body>
+                                                    </Card>
+                                                </div>
+                                            ))}
+                                        </CardDeck>
+                                        <Button variant="outline-primary"
+                                                onClick={() => arrayHelpers.push(EMPTY_SKILL_OBJECT)}>
                                             Add Skill
                                         </Button>
                                     </div>
@@ -378,62 +431,94 @@ function EditConsultant(props) {
                                 name="engagementHistory"
                                 render={arrayHelpers => (
                                     <div>
-                                        {values.engagementHistory.map((engagement, index) => (
-                                            <div key={index}>
-                                                <InputGroup.Prepend className="mb-2">
-                                                    <InputGroup.Text>Name</InputGroup.Text>
-                                                    <Field name={`engagementHistory[${index}].name`}/>
-                                                    {errors &&
-                                                    errors.engagementHistory &&
-                                                    errors.engagementHistory[index] &&
-                                                    errors.engagementHistory[index].name &&
-                                                    touched &&
-                                                    touched.engagementHistory &&
-                                                    touched.engagementHistory[index] &&
-                                                    touched.engagementHistory[index].name &&
-                                                    <div>{errors.engagementHistory[index].name}</div>}
-                                                </InputGroup.Prepend>
+                                        <CardDeck>
+                                            {values.engagementHistory.map((engagement, index) => (
+                                                <div key={index}>
+                                                    <Card className="mb-3">
+                                                        <Card.Body>
+                                                            <Container>
+                                                                <Card.Text>
+                                                                    <Row>
+                                                                        <InputGroup.Prepend
+                                                                            className="mb-2">
+                                                                            <InputGroup.Text
+                                                                                style={{width: "202px"}}>Name</InputGroup.Text>
+                                                                            <Field
+                                                                                name={`engagementHistory[${index}].name`}/>
+                                                                        </InputGroup.Prepend>
+                                                                    </Row>
+                                                                    {errors &&
+                                                                    errors.engagementHistory &&
+                                                                    errors.engagementHistory[index] &&
+                                                                    errors.engagementHistory[index].name &&
+                                                                    touched &&
+                                                                    touched.engagementHistory &&
+                                                                    touched.engagementHistory[index] &&
+                                                                    touched.engagementHistory[index].name &&
+                                                                    <Row className="mb-3"
+                                                                         style={{color: "red"}}>{errors.engagementHistory[index].name}</Row>}
 
-                                                <InputGroup.Prepend className="mb-2">
-                                                    <InputGroup.Text>Description</InputGroup.Text>
-                                                    <Field name={`engagementHistory[${index}].description`}/>
-                                                    {errors &&
-                                                    errors.engagementHistory &&
-                                                    errors.engagementHistory[index] &&
-                                                    errors.engagementHistory[index].description &&
-                                                    touched &&
-                                                    touched.engagementHistory &&
-                                                    touched.engagementHistory[index] &&
-                                                    touched.engagementHistory[index].description &&
-                                                    <div>{errors.engagementHistory[index].description}</div>}
-                                                </InputGroup.Prepend>
+                                                                    <Row>
+                                                                        <InputGroup.Prepend
+                                                                            className="mb-2">
+                                                                            <InputGroup.Text
+                                                                                style={{width: "202px"}}>Description</InputGroup.Text>
+                                                                            <Field
+                                                                                name={`engagementHistory[${index}].description`}/>
+                                                                        </InputGroup.Prepend>
+                                                                    </Row>
+                                                                    {errors &&
+                                                                    errors.engagementHistory &&
+                                                                    errors.engagementHistory[index] &&
+                                                                    errors.engagementHistory[index].description &&
+                                                                    touched &&
+                                                                    touched.engagementHistory &&
+                                                                    touched.engagementHistory[index] &&
+                                                                    touched.engagementHistory[index].description &&
+                                                                    <Row className="mb-3"
+                                                                         style={{color: "red"}}>{errors.engagementHistory[index].description}</Row>}
 
-                                                <InputGroup.Prepend className="mb-2">
-                                                    <InputGroup.Text>Duration (years)</InputGroup.Text>
-                                                    <Field name={`engagementHistory[${index}].duration`}/>
-                                                    {errors &&
-                                                    errors.engagementHistory &&
-                                                    errors.engagementHistory[index] &&
-                                                    errors.engagementHistory[index].duration &&
-                                                    touched &&
-                                                    touched.engagementHistory &&
-                                                    touched.engagementHistory[index] &&
-                                                    touched.engagementHistory[index].duration &&
-                                                    <div>{errors.engagementHistory[index].duration}</div>}
+                                                                    <Row>
+                                                                        <InputGroup.Prepend
+                                                                            className="mb-2">
+                                                                            <InputGroup.Text
+                                                                                style={{width: "202px"}}>Duration
+                                                                                (years)</InputGroup.Text>
+                                                                            <Field
+                                                                                name={`engagementHistory[${index}].duration`}/>
+                                                                        </InputGroup.Prepend>
+                                                                    </Row>
+                                                                    {errors &&
+                                                                    errors.engagementHistory &&
+                                                                    errors.engagementHistory[index] &&
+                                                                    errors.engagementHistory[index].duration &&
+                                                                    touched &&
+                                                                    touched.engagementHistory &&
+                                                                    touched.engagementHistory[index] &&
+                                                                    touched.engagementHistory[index].duration &&
+                                                                    <Row className="mb-3"
+                                                                         style={{color: "red"}}>{errors.engagementHistory[index].duration}</Row>}
 
-                                                    <Button variant="outline-danger"
-                                                            style={{
-                                                                marginLeft: "1%",
-                                                                minWidth: "180px"
-                                                            }}
-                                                            onClick={() => arrayHelpers.remove(index)}>
-                                                        Remove Engagement
-                                                    </Button>
-                                                </InputGroup.Prepend>
-
-                                            </div>
-                                        ))}
-                                        <Button variant="outline-primary" onClick={() => arrayHelpers.push(EMPTY_ENGAGEMENT_OBJECT)}>
+                                                                    <Row>
+                                                                        <Button
+                                                                            variant="outline-danger"
+                                                                            style={{
+                                                                                marginLeft: "1%",
+                                                                                minWidth: "180px"
+                                                                            }}
+                                                                            onClick={() => arrayHelpers.remove(index)}>
+                                                                            Remove Engagement
+                                                                        </Button>
+                                                                    </Row>
+                                                                </Card.Text>
+                                                            </Container>
+                                                        </Card.Body>
+                                                    </Card>
+                                                </div>
+                                            ))}
+                                        </CardDeck>
+                                        <Button variant="outline-primary"
+                                                onClick={() => arrayHelpers.push(EMPTY_ENGAGEMENT_OBJECT)}>
                                             Add Engagement
                                         </Button>
                                     </div>
