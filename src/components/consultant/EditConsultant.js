@@ -253,7 +253,7 @@ function EditConsultant(props) {
                     dismissible>
                     <Alert.Heading>Consultant Removed</Alert.Heading>
                     <p>
-                        This consultant has been removed.
+                        This consultant has been removed. Closing this message will redirect you.
                     </p>
                 </Alert> : null
             }
